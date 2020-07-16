@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block login_content %}
+    <style type="text/css">
+    li.button_login {list-style:none; display: inline-block;  padding: 5px;
+    width: auto; height: auto; }
+    </style>
+    <h2>Sign In</h2>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}<br>
+            {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <ul>
+            <li class="button_login"><p>{{ form.submit() }}</p></li>
+            <li class="button_login"><p>{{ form.new_user() }}</p></li>
+        </ul>
+    </form>   
+{% endblock %}
