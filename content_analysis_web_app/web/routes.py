@@ -1,21 +1,11 @@
+from web import app
 #### Flask Modules
 from flask import Flask, url_for, render_template, request, flash, redirect
 from flask_login import current_user, login_user, logout_user
 #### Login Modules
 from web.login import LoginForm
-#### Config Modules
-from web.config import Config_KEY, Config_DB
-import os
-#### User Models
-from web.models import User
-#### Frontend Web Modules
-from web import app
 #### Backend Web Modules
-from backend.text_analysisV2 import CSVs_to_Excel
-
-#### Start Config
-app.config['SECRET_KEY'] = 'you-will-never-guess'
-app.config.from_object(Config_KEY)
+#from analysis.text_analysisV2 import CSVs_to_Excel
 
 #### Routes
 #### ## Index
@@ -62,6 +52,3 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
-
-if __name__ == "__main__":
-    app.run(host='127.0.0.1',port=5000, debug=True)

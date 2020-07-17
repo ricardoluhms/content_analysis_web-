@@ -17,4 +17,4 @@ migrate = Migrate(app, db)
 ### To be detailed
 login_manager = LoginManager(app)
 
-from web import routes, models
+import web.routes, web.models
