@@ -1,5 +1,5 @@
 from flask import render_template, current_app
-from caw_app.m_email import send_email
+from caw_app.email import send_email
 
 
 def send_password_reset_email(user):
