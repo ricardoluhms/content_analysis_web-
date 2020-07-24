@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+{% block navbar%}
+<div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+        content_analysis_web_app\manage_reviews\templates\mngt_rev_temp
+        <li> <a href="{{ url_for('templates\auth_temp', filename='logout.html')}}"> logout</a> </li>
+        <li> <a href="{{ url_for('templates\mngt_rev_temp', filename='manage_screen.html')}}"> Review Management </a> </li>
+        <li> <a href="{{ url_for('templates\mngt_rev_temp', filename='new_review.html')}}"> Start Review </a> </li>
+        <li> <a href="{{ url_for('templates\mngt_rev_temp', filename='load_review.html')}}"> Load Review </a> </li>
+        <li> <a href="{{ url_for('templates\mngt_rev_temp', filename='share_review.html')}}"> Share Review </a> </li>
+    </ul>
+</div>
+{% endblock%}
