@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template,url_for
 from caw_app.edit_review import edit_review_bp
 #from content_analysis_web_app.models import Edit_Reviews
 
@@ -7,12 +7,12 @@ from caw_app.edit_review import edit_review_bp
 @edit_review_bp.route('/')
 def problem_space():
     ### to be defined
-    return render_template('edit_rev_temp/00_problem_space.html')
+    return render_template(url_for("edit_r.00_problem_space"))
 
 @edit_review_bp.route('/')
 def solution_space():
     ### to be defined
-    return render_template('edit_rev_temp/01_solution_space.html')
+    return render_template(url_for("edit_r.01_solution_space.html"))
 
 @edit_review_bp.route('/')
 def groups_space():

@@ -16,15 +16,13 @@ from caw_app.config import Config
 
 db = SQLAlchemy()
 migrate = Migrate()
-login = LoginManager()
-login.login_view = 'auth.login'
-login.login_message = 'Please log in to access this page.'
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.login_message = 'Please log in to access this page.'
 mail = Mail()
 bootstrap = Bootstrap()
 moment = Moment()
 #babel = Babel()
-
-login_manager = LoginManager(); login_manager.login_view = 'auth.login'
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -32,7 +30,7 @@ def create_app(config_class=Config):
 
     db.init_app(app)
     migrate.init_app(app, db)
-    login.init_app(app)
+    login_manager.init_app(app)
     mail.init_app(app)
     bootstrap.init_app(app)
     moment.init_app(app)
@@ -45,29 +43,30 @@ def create_app(config_class=Config):
 
     ### api folder and files needs to be modified
     from caw_app.api import api_bp
-    app.register_blueprint(api_bp, url_prefix='/api')
+    app.register_blueprint(api_bp)
 
     ## error folder and files needs to be modified
     from caw_app.errors import errors_bp
-    app.register_blueprint(errors_bp, url_prefix='/errors')
+    app.register_blueprint(errors_bp)
 
     ## verify routes and html paths of 
     from caw_app.auth import auth_bp
-    app.register_blueprint(auth_bp, url_prefix='/login')
+    app.register_blueprint(auth_bp)
     
     ## verify routes and html paths of main - folder changed from general to main
     from caw_app.main import main_bp
     #app.register_blueprint(main_bp, url_prefix='/index')
-    app.register_blueprint(main_bp, url_prefix='/index')
+    app.register_blueprint(main_bp)
 
     ## add html files from framxework and adapt them - modify routes
-    from caw_app.edit_review import edit_review_bp
-    app.register_blueprint(edit_review_bp, url_prefix='/edit_review')
+    # from caw_app.edit_review import edit_review_bp
+    # app.register_blueprint(edit_review_bp)
 
     ## add html files from framework and adapt them - modify routes
     from caw_app.manage_reviews import manage_reviews_bp
-    app.register_blueprint(manage_reviews_bp, url_prefix='/manage_reviews')
+    app.register_blueprint(manage_reviews_bp)
 
+    #from IPython import embed; embed()
     if not app.debug and not app.testing:
         if app.config['MAIL_SERVER']:
             auth = None

@@ -5,10 +5,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-  <!-- <link rel="stylesheet" href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css"> -->
+  <link rel="stylesheet" href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css">
 {% endblock %}
 
-{% block page_content %}
+{% block content %}
   <div class="py-5 text-center" style="background-image: url(); background-size: cover;">
     <div class="container">
         <div class="row">
@@ -18,10 +18,9 @@
                     {{ wtf.quick_form(form) }}
                     <br>
                     <p>Forgot your password? 
-                      <a href="/caw_app/auth/templates/auth_temp/reset_password_request.html">Click here to reset it</a>.
-                      <!-- <a href="{{ url_for('authreset_password_request') }}">Click here to reset it</a>. -->
+                      <a href=" {{ url_for('auth.reset_password_request') }} ">Click here to reset it</a>.
                     </p>
-                    <p>New user? <a href="/caw_app/auth/templates/auth_temp/signup.html">Click here to register</a>.</p>
+                    <p>New user? <a href=" {{ url_for('auth.signup') }} ">Click here to register</a>.</p>
                 </div>
             </div>
         </div>
@@ -33,7 +32,7 @@
             <div class="col-md-12 text-center d-md-flex align-items-center">
                 <ul class="nav d-flex justify-content-center">
                     <li class="nav-item"> <a class="nav-link active" 
-                        href="/caw_app/main/templates/main_temp/index.html">Home</a> </li>
+                        href=" {{ url_for('main.index') }} ">>Home</a> </li>
                 </ul> <i class="d-block fa fa-stop-circle fa-3x mx-auto text-primary"></i>
                 <p class="mb-0 py-1">© Copyright 2020 rluhms - All rights reserved.</p>
             </div>

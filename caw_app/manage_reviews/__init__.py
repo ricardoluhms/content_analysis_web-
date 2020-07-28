@@ -1,8 +1,5 @@
 from flask import Blueprint
 
-manage_reviews_bp = Blueprint('manage_reviews_bp', __name__,
-                                template_folder='templates',
-                                static_folder='static', 
-                                static_url_path='mngt_revs')
+manage_reviews_bp = Blueprint('mgts', __name__, url_prefix='/mgts')
 
 from caw_app.manage_reviews import routes

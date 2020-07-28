@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\content_analysis_web_app"
+    "\\logs",
+    "\\migrations"
   ],
-  "SelectedNode": "\\content_analysis_web_app\\web",
-  "PreviewInSolutionExplorer": false
+  "SelectedNode": "\\migrations",
+  "PreviewInSolutionExplorer": true
 }

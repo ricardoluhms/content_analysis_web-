@@ -5,17 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-    <!-- <link rel="stylesheet" href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css"> -->
+    <link rel="stylesheet" href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css">
 {% endblock %}
 
-{% block app_content %}
-
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container"> <a class="navbar-brand" href="#">
-            <i class="fa d-inline fa-lg fa-circle"></i>
-            <b> Content Analysis Web</b>  </a> 
-        </div>
-    </nav>
+{% block content %}
 
     <div class="text-center py-2" style="" >
         <div class="container">
@@ -23,8 +16,8 @@
                 <div class="mx-auto col-lg-6 col-10">
                     <h1>Sign in</h1>
                     <div class="row">
-                        <div class="col-md-4">
-                            {{ wtf.quick_form(form) }}
+                        {{ wtf.quick_form(form) }}
+                        <div class="col-md-4">     
                         </div>
                     </div>  
                 </div>
@@ -38,9 +31,9 @@
                 <div class="col-md-12 text-center d-md-flex align-items-center"> <i class="d-block fa fa-stop-circle fa-2x mr-md-5 text-primary"></i>
                     <ul class="nav mx-md-auto d-flex justify-content-center">
                         <li class="nav-item"> <a class="nav-link active" 
-                            href="/caw_app/main/templates/main_temp/index.html">Home</a> </li>
+                            href=" {{ url_for('main.index') }}">Home</a> </li>
                         <li class="nav-item"> <a class="nav-link" 
-                            href="/caw_app/main/templates/main_temp/about.html">About</a> </li>
+                            href=" {{ url_for('main.about') }}">About</a> </li>
                     </ul>
                         <div class="row">
                             <div class="col-md-12 d-flex align-items-center justify-content-md-between justify-content-center my-2"> 

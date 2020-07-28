@@ -14,29 +14,29 @@ from caw_app.auth.email import send_password_reset_email ### Check
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('templates', filename='manage_screen.html'))
+        return redirect(url_for('mngt.manage_screen'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
-            return redirect(url_for('templates', filename='login.html'))
+            return redirect(url_for('auth.login'))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('templates', filename='manage_screen.html')
+            next_page = 'mngt/manage_screen'
         return redirect(next_page)
-    return render_template(url_for('templates', filename='login.html'), title='Sign In', form=form)
+    return render_template('auth/login.html', title='Sign In', form=form)
 
 @auth_bp.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('templates', filename='logout.html'))
+    return render_template('auth/logout.html', title='Log out', form=form)
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
     if current_user.is_authenticated:
-        return redirect(url_for('templates', filename='manage_screen.html'))
+        return redirect(url_for('mngt.manage_screen'))
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data)
@@ -44,8 +44,8 @@ def signup():
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('templates', filename='login.html'))
-    return render_template(url_for('templates', filename='signup.html'), title='Sign up', form=form)
+        return redirect(url_for('auth.login'))
+    return render_template('auth/signup.html', title='Sign up', form=form)
 
 @auth_bp.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
@@ -57,21 +57,21 @@ def reset_password_request():
         if user:
             send_password_reset_email(user)
         flash('Check your email for the instructions to reset your password')
-        return redirect(url_for('templates/auth_temp', filename='login.html'))
-    return render_template( url_for('templates', filename='reset_password_request.html'), 
+        return redirect(url_for('auth.login'))
+    return render_template( 'auth/reset_password_request.html', 
                             title='Reset Password', form=form)
 
 @auth_bp.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
     if current_user.is_authenticated:
-        return redirect(url_for('templates', filename='manage_screen.html'))
+        return redirect(url_for('mngt.manage_screen'))
     user = User.verify_reset_password_token(token)
     if not user:
-        return redirect(url_for('templates', filename='index.html'))
+        return redirect(url_for('main.index'))
     form = ResetPasswordForm()
     if form.validate_on_submit():
         user.set_password(form.password.data)
         db.session.commit()
         flash('Your password has been reset.')
-        return redirect(url_for('templates', filename='login.html'))
-    return render_template(url_for('templates', filename='reset_password.html'), form=form)
+        return redirect(url_for('auth.login'))
+    return render_template('auth/reset_password.html', form=form)
