@@ -9,14 +9,6 @@ from flask_login import UserMixin, AnonymousUserMixin
 from caw_app.exceptions import ValidationError
 from . import db, login_manager ### Check db creation, startup and update
 
-class Manage_Reviews ():
-    def __init__(self):
-        pass
-
-class Edit_Reviews ():
-    def __init__(self):
-        pass
-
 class Permission:
     FOLLOW = 1
     COMMENT = 2
@@ -88,7 +80,8 @@ class User(UserMixin, db.Model):
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
     avatar_hash = db.Column(db.String(32))
-
+    projects=db.relationship('Projects', backref='users', lazy='dynamic')
+    reviews=db.relationship('Reviews', backref='users', lazy='dynamic')
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:
@@ -306,3 +299,72 @@ class Comment(db.Model):
         return Comment(body=body)
 
 db.event.listen(Comment.body, 'set', Comment.on_changed_body)
+
+
+class Projects(db.Model):
+    __tablename__='projects'
+    id = db.Column(db.Integer, primary_key=True) ### project id
+    project_name=db.Column(db.String(64))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    reviews=db.relationship('Reviews', backref="projects", lazy='dynamic')
+    
+    def __repr__(self):
+        return "<Projects (id='%d', project_name='%s',user_id='%d')>" % (
+                self.id, self.email,self.username)
+
+class Reviews(db.Model):
+    __tablename__='reviews'
+    id = db.Column(db.Integer, primary_key=True) ### review id
+    review_name=db.Column(db.String(64))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
+
+    problem_space_id = db.Column(db.Integer, db.ForeignKey('problem_space.id'))
+    problem_space=db.relationship('Problem_Space', back_populates="review", lazy='dynamic')
+
+    solution_space_id = db.Column(db.Integer, db.ForeignKey('solution_space.id'))
+    solution_space=db.relationship('Solution_Space', back_populates="review", lazy='dynamic')
+
+    manage_group_id = db.Column(db.Integer, db.ForeignKey('manage_group.id'))
+    manage_group=db.relationship('Manage_Groups', back_populates="review", lazy='dynamic')
+
+class Problem_Space(db.Model):
+    __tablename__='problem_space'
+    id = db.Column(db.Integer, primary_key=True) 
+    review_id = db.Column(db.Integer, db.ForeignKey('reviews.id'))
+    problem_space_text = db.Column(db.Text)
+    review=db.relationship('Reviews', back_populates="problem_space", lazy='dynamic')
+
+class Solution_Space(db.Model):
+    __tablename__='solution_space'
+    id = db.Column(db.Integer, primary_key=True) 
+    review_id = db.Column(db.Integer, db.ForeignKey('reviews.id'))
+    solution_space_text = db.Column(db.Text)
+    review=db.relationship('Reviews', back_populates="solution_space", lazy='dynamic')
+
+class Manage_Groups(db.Model):
+    __tablename__='manage_group'
+    id = db.Column(db.Integer, primary_key=True) 
+    review_id = db.Column(db.Integer, db.ForeignKey('reviews.id'))
+    tt_groups=db.Column(db.Integer)
+    review=db.relationship('Reviews', back_populates="manage_group", lazy='dynamic')
+    all_groups=db.relationship('Reviews', back_populates="manage_group", lazy='dynamic')
+
+class New_Group(db.Model):
+    __tablename__='all_groups'
+    id = db.Column(db.Integer, primary_key=True)
+    manage_group_id = db.Column(db.Integer, db.ForeignKey('manage_group.id'))
+    group_name=db.Column(db.String(64))
+    group_type=db.Column(db.String(16))
+    manage_group=db.relationship('Manage_Groups', back_populates="all_groups", lazy='dynamic')
+    keywords=db.relationship('Keywords', back_populates="all_groups", lazy='dynamic')
+
+class Keywords(db.Model):
+    __tablename__='keywords'
+    id = db.Column(db.Integer, primary_key=True) 
+    group_id = db.Column(db.Integer, db.ForeignKey('all_groups.id'))
+    group_type = db.Column(db.Integer, db.ForeignKey('all_groups.group_type'))
+    manage_group_id = db.Column(db.Integer, db.ForeignKey('manage_group.id'))
+    keywords = db.Column(db.Text)
+    key2group = db.relationship('New_Group', back_populates="keywords", lazy='dynamic')

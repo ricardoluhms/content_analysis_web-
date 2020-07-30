@@ -1,6 +1,6 @@
 from flask import render_template
 from caw_app.manage_reviews import manage_reviews_bp
-from caw_app.models import Manage_Reviews
+from caw_app.models import Projects, Reviews
 
 @manage_reviews_bp.route('/')
 def manage_screen():
