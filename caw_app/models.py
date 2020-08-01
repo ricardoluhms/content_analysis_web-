@@ -9,6 +9,11 @@ from flask_login import UserMixin, AnonymousUserMixin
 from caw_app.exceptions import ValidationError
 from . import db, login_manager ### Check db creation, startup and update
 
+association_table = db.Table('user_projects', db.Model.metadata,
+                                db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+                                db.Column('project_id', db.Integer, db.ForeignKey('projects.id'))
+                            )
+
 class Permission:
     FOLLOW = 1
     COMMENT = 2
@@ -69,19 +74,25 @@ class Role(db.Model):
         return '<Role %r>' % self.name
 
 class User(UserMixin, db.Model):
+    ### Table Name ###
     __tablename__ = 'users'
+    ### Primary Key ###
     id = db.Column(db.Integer, primary_key=True)
+    ### Data Columns ###
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     name = db.Column(db.String(64))
+    avatar_hash = db.Column(db.String(32))
+    ### Foreign Keys ###
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    ### Relationship Keys - Has Children (OLD)? - YES - Post, Comments
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
-    avatar_hash = db.Column(db.String(32))
-    projects=db.relationship('Projects', backref='users', lazy='dynamic')
-    reviews=db.relationship('Reviews', backref='users', lazy='dynamic')
+    ### Relationship Keys - Has Children (NEW)? - YES - Projects
+    projects_PC=db.relationship('Projects', secondary=association_table, back_populates='users_CP')
+
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:
@@ -91,14 +102,13 @@ class User(UserMixin, db.Model):
                 self.role = Role.query.filter_by(default=True).first()
         if self.email is not None and self.avatar_hash is None:
             self.avatar_hash = self.gravatar_hash()
-        self.follow(self)
+        #self.follow(self)
 
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')
 
-    @password.setter
-    def password(self, password):
+    def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):
@@ -300,71 +310,99 @@ class Comment(db.Model):
 
 db.event.listen(Comment.body, 'set', Comment.on_changed_body)
 
-
 class Projects(db.Model):
+    ### Table Name ###
     __tablename__='projects'
-    id = db.Column(db.Integer, primary_key=True) ### project id
-    project_name=db.Column(db.String(64))
+    ### Primary Key ###
+    id = db.Column(db.Integer, primary_key=True)
+    ### Data Columns ###
+    project_name=db.Column(db.String(64), index=True)
+    ### Foreign Keys - Parent only ###
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    reviews=db.relationship('Reviews', backref="projects", lazy='dynamic')
-    
-    def __repr__(self):
-        return "<Projects (id='%d', project_name='%s',user_id='%d')>" % (
-                self.id, self.email,self.username)
+    ## Relationship Keys - Has Parent? - YES - Users
+    users_CP=db.relationship('User', secondary=association_table, back_populates="projects_PC")
+    ### Relationship Keys - Has Children? - YES - New_Group
+    reviews_PC=db.relationship('Reviews', back_populates="projects_CP")
 
 class Reviews(db.Model):
+    ### Table Name ###
     __tablename__='reviews'
+    ### Primary Key ###
     id = db.Column(db.Integer, primary_key=True) ### review id
-    review_name=db.Column(db.String(64))
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
-
-    problem_space_id = db.Column(db.Integer, db.ForeignKey('problem_space.id'))
-    problem_space=db.relationship('Problem_Space', back_populates="review", lazy='dynamic')
-
-    solution_space_id = db.Column(db.Integer, db.ForeignKey('solution_space.id'))
-    solution_space=db.relationship('Solution_Space', back_populates="review", lazy='dynamic')
-
-    manage_group_id = db.Column(db.Integer, db.ForeignKey('manage_group.id'))
-    manage_group=db.relationship('Manage_Groups', back_populates="review", lazy='dynamic')
+    review_name=db.Column(db.String(64), index=True)
+    ### Foreign Keys - Parent only ###
+    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))### ok - project=parent - review=children
+    ### Relationship Keys - Has Parent? - YES - Projects
+    projects_CP=db.relationship('Projects', back_populates="reviews_PC")
+    ### Relationship Keys - Has Children? - YES - Problem_Space, Solution_Space, Manage_Groups
+    problem_space_PC=db.relationship('Problem_Space', back_populates="prob_review_CP")
+    solution_space_PC=db.relationship('Solution_Space', back_populates="solut_review_CP")
+    manage_group_PC=db.relationship('Manage_Groups', back_populates="review_CP")
 
 class Problem_Space(db.Model):
+    ### Table Name ###
     __tablename__='problem_space'
+    ### Primary Key ###
     id = db.Column(db.Integer, primary_key=True) 
-    review_id = db.Column(db.Integer, db.ForeignKey('reviews.id'))
+    ### Data Columns ###
     problem_space_text = db.Column(db.Text)
-    review=db.relationship('Reviews', back_populates="problem_space", lazy='dynamic')
+    ### Foreign Keys - Parent only ###
+    review_id = db.Column(db.Integer, db.ForeignKey('reviews.id'))
+    ## Relationship Keys - Has Parent? - YES - Reviews
+    prob_review_CP=db.relationship('Reviews', back_populates="problem_space_PC")
+    ### Relationship Keys - Has Children? - NO
 
 class Solution_Space(db.Model):
+    ### Table Name ###
     __tablename__='solution_space'
+    ### Primary Key ###
     id = db.Column(db.Integer, primary_key=True) 
-    review_id = db.Column(db.Integer, db.ForeignKey('reviews.id'))
+    ### Data Columns ###
     solution_space_text = db.Column(db.Text)
-    review=db.relationship('Reviews', back_populates="solution_space", lazy='dynamic')
+    ### Foreign Keys - Parent only ###
+    review_id = db.Column(db.Integer, db.ForeignKey('reviews.id'))
+    ## Relationship Keys - Has Parent? - YES - Reviews
+    solut_review_CP=db.relationship('Reviews', back_populates="solution_space_PC")
+    ### Relationship Keys - Has Children? - NO
 
 class Manage_Groups(db.Model):
+    ### Table Name ###
     __tablename__='manage_group'
-    id = db.Column(db.Integer, primary_key=True) 
-    review_id = db.Column(db.Integer, db.ForeignKey('reviews.id'))
+    ### Primary Key ###
+    id = db.Column(db.Integer, primary_key=True)
+    ### Data Columns ###
     tt_groups=db.Column(db.Integer)
-    review=db.relationship('Reviews', back_populates="manage_group", lazy='dynamic')
-    all_groups=db.relationship('Reviews', back_populates="manage_group", lazy='dynamic')
+    ### Foreign Keys - Parent only ###
+    review_id = db.Column(db.Integer, db.ForeignKey('reviews.id'))
+    ### Relationship Keys - Has Parent? - YES - Reviews
+    review_CP=db.relationship('Reviews', back_populates="manage_group_PC")
+    ### Relationship Keys - Has Children? - YES - New_Group
+    all_groups_PC=db.relationship('New_Group', back_populates="manage_group_CP")
 
 class New_Group(db.Model):
+    ### Table Name ###
     __tablename__='all_groups'
+    ### Primary Key ###
     id = db.Column(db.Integer, primary_key=True)
+    ### Data Columns ###
+    group_name=db.Column(db.String(64), index=True)
+    group_type=db.Column(db.String(16), index=True)
+    ### Foreign Keys - Parent only ###
     manage_group_id = db.Column(db.Integer, db.ForeignKey('manage_group.id'))
-    group_name=db.Column(db.String(64))
-    group_type=db.Column(db.String(16))
-    manage_group=db.relationship('Manage_Groups', back_populates="all_groups", lazy='dynamic')
-    keywords=db.relationship('Keywords', back_populates="all_groups", lazy='dynamic')
-
+    ### Relationship Keys - Has Parent? - YES - Manage_Groups
+    manage_group_CP=db.relationship('Manage_Groups', back_populates="all_groups_PC")
+    ### Relationship Keys - Has Children? - YES - Keywords
+    keywords_PC=db.relationship('Keywords', back_populates="key2group_CP")
+    
 class Keywords(db.Model):
+    ### Table Name ###
     __tablename__='keywords'
-    id = db.Column(db.Integer, primary_key=True) 
+    ### Primary Key ###
+    id = db.Column(db.Integer, primary_key=True)
+    ### Data Columns ###
+    keyword_list = db.Column(db.Text)
+    ### Foreign Keys - Parent only ###
     group_id = db.Column(db.Integer, db.ForeignKey('all_groups.id'))
-    group_type = db.Column(db.Integer, db.ForeignKey('all_groups.group_type'))
-    manage_group_id = db.Column(db.Integer, db.ForeignKey('manage_group.id'))
-    keywords = db.Column(db.Text)
-    key2group = db.relationship('New_Group', back_populates="keywords", lazy='dynamic')
+    ### Relationship Keys - Has Parent? - YES - New_Group
+    key2group_CP = db.relationship('New_Group', back_populates="keywords_PC")
+    ### Relationship Keys - Has Children? - NO

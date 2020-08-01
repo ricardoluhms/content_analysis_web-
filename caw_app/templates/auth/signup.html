@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-{% import 'bootstrap/wtf.html' as wtf %}
-
+{% import "bootstrap/wtf.html" as wtf %}
 {% block head %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,16 +14,12 @@
             <div class="row" style="">
                 <div class="mx-auto col-lg-6 col-10">
                     <h1>Sign in</h1>
-                    <div class="row">
+                    <div >
                         {{ wtf.quick_form(form) }}
-                        <div class="col-md-4">     
-                        </div>
-                    </div>  
-                </div>
+                    </div>
             </div>
         </div>
     </div>
-
     <div class="py-3">
         <div class="container">
             <div class="row">
