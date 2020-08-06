@@ -7,7 +7,7 @@ from caw_app.auth.forms import LoginForm, RegistrationForm, \
     ResetPasswordRequestForm, ResetPasswordForm
 
 from caw_app.models import User ### Check 
-from caw_app.auth.email import send_password_reset_email ### Check
+#from caw_app.auth.email import send_password_reset_email ### Check
 
 from caw_app import db
 #from content_analysis_web_app.models import Edit_Reviews
@@ -32,7 +32,7 @@ def login():
 @auth_bp.route('/logout')
 def logout():
     logout_user()
-    return render_template('auth/logout.html', title='Log out', form=form)
+    return render_template('auth/logout.html', title='Log out')
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -45,7 +45,7 @@ def signup():
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('auth.login')),
     return render_template('auth/signup.html', title='Sign up', form=form)
 
 @auth_bp.route('/reset_password_request', methods=['GET', 'POST'])
@@ -56,7 +56,8 @@ def reset_password_request():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
-            send_password_reset_email(user)
+            pass
+            #send_password_reset_email(user)
         flash('Check your email for the instructions to reset your password')
         return redirect(url_for('auth.login'))
     return render_template( 'auth/reset_password_request.html', 

@@ -1,15 +1,16 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 
 {% block head %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
   <link rel="stylesheet" href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css">
+  <style> .fade:not(.show) {
+    opacity: 0.9;}</style>
 {% endblock %}
 
 {% block content %}
-  <div class="py-3 pl-0">
+  <div class="py-3 pl-0" style="background-color:#f3f3f3">
     <div class="container ml-1">
       <div class="row">
         <div class="col-md-3 ml-0" style="">
@@ -20,30 +21,42 @@
             <li class=" border-0 list-group-item d-flex justify-content-between align-items-center"> LOG OUT <i class="fa fa-sign-out text-muted fa-lg"></i></li>
           </ul>
         </div>
+        {% block new_review %}
         <div class="p-2 col-lg-3" style="">
           <div class="card">
-            <div class="card-body p-4" style=""> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="https://static.pingendo.com/img-placeholder-3.svg" width="150">
-              <h1>One</h1>
-              <p class="mb-0">A wonderful serenity has taken possession of my entire soul.</p>
+            <div class="card-body p-4" style="">
+              <a  href="{{ url_for('mngt.new_review') }}">
+              <img class="img-fluid d-block mb-3 mx-auto rounded" 
+                  src= '/static/media/start_project.png' width="250"></a>
+              <h3>Start a New Project</h3>
+              <p class="mb-0">Start your Systematic Review Project</p>
             </div>
           </div>
         </div>
-        <div class="col-md-1 p-2 col-lg-3" style="">
+        <div class="p-2 col-lg-3" style="">
           <div class="card">
-            <div class="card-body p-4"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="https://static.pingendo.com/img-placeholder-2.svg" width="150">
-              <h1>Two</h1>
-              <p class="mb-0">So absorbed in the exquisite sense of mere tranquil existence.</p>
+            <div class="card-body p-4"> 
+                <a  href="{{ url_for('mngt.load_review') }}">
+                <img class="img-fluid d-block mb-3 mx-auto rounded" 
+                    src= '/static/media/load_a_project1.png' width="250"></a>
+                <h3>Load a Project</h3>
+                <p class="mb-0">Load your Systematic Review Project</p>
             </div>
           </div>
         </div>
-        <div class="p-3 col-md-3 col-lg-3" style="">
+        <div class="p-2 col-lg-3" style="">
           <div class="card">
-            <div class="card-body p-4"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="https://static.pingendo.com/img-placeholder-1.svg" width="150">
-              <h1>Three</h1>
-              <p class="mb-0">I should be incapable of drawing a single stroke.</p>
-            </div>
+            <div class="card-body p-4"> 
+                <a  href="{{ url_for('mngt.share_review') }}">
+                <img class="img-fluid d-block mb-3 mx-auto rounded" 
+                    src= '/static/media/share_review_main1.png' width="250"></a>
+                <h3>Share a your Project</h3>
+                <p class="mb-0">Share your Systematic Review Project with your colleagues</p>
+            </div>  
           </div>
+        
         </div>
+        {% endblock %}
       </div>
     </div>
   </div>

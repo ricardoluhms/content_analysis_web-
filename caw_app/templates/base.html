@@ -25,6 +25,8 @@
                     <li><a class="btn btn-primary navbar-btn ml-md-2" href="{{ url_for('auth.login')}}"> Login </a></li>
                     {% else %}
                     <li><a class="btn btn-primary navbar-btn ml-md-2"href="{{ url_for('auth.logout')}}"> Logout </a></li>
+                    {% block username %}
+                    {% endblock %}
                     {% endif %}
                     <li><a class="btn btn-primary navbar-btn ml-md-2" href="{{ url_for('main.about')}}"> About </a></li>
                 </ul>

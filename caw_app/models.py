@@ -218,7 +218,8 @@ class User(UserMixin, db.Model):
         return User.query.get(data['id'])
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        #print(self.username, self.email)
+        return '<User %r >' % self.username
 
 class AnonymousUser(AnonymousUserMixin):
     def can(self, permissions):

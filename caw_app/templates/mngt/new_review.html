@@ -1,0 +1,70 @@
+{% extends "mngt/manage_screen.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block username %}
+<li><a class="btn btn-outline-primary ml-md-2" style="background:#f3f3f3 "> Hi {{username}} </a></li>
+{% endblock %}
+
+{% block new_review %}>
+  <div class="col-xl" style="background-color:#f3f3f3; padding: 5px;">
+    <div class="card">
+      <div class="card-body p-2" style="background-color: #0c5f58; 
+                                        border: #000000; 
+                                        color:#f3f3f3;
+                                        border-width: 1px;
+                                        border-color: #000000;">
+        <span ><b style="font-size: larger; ">Create New Project</b></span>
+      </div>
+      <div class="card-body p-2" style="background-color: #12bbad; 
+                                        border: #000000; 
+                                        color:#f3f3f3;
+                                        border-width: 3px;
+                                        border-color: #000000;">
+        <div class="form-field" style="padding: 5px;">
+          {{ wtf.quick_form(form) }}
+        </div>
+      </div>
+      <div class="row submit-row">
+        <span class="input-status" data-toggle="tooltip" data-placement="top">
+          {% with messages= get_flashed_messages() %}
+          {% if messages %}
+          <div class="mx-auto p-4 col-md-7">
+            <ul class=flashes></ul>
+            
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          </div>
+          
+          {% endif %}
+          {% endwith %}
+        </span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body p-2" style="background-color: #0c5f58; 
+                                        border: #000000; 
+                                        color:#f3f3f3;
+                                        border-width: 1px;
+                                        border-color: #000000;">
+        <span ><b style="font-size: larger; ">Existing Project List:</b></span>
+      </div>
+      <div class="card-body p-2" style="background-color: #12bbad; 
+                                        border: #000000; 
+                                        color:#f3f3f3;
+                                        border-width: 3px;
+                                        border-color: #000000;">
+        <div class="form-field" style="padding: 5px;">
+          <ul class=flashes></ul>
+          {% for project in project_list %}
+          <li>{{ project.project_name }}</li>
+          {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
