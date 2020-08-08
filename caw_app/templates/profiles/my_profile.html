@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css">
+{% endblock %}
+
+{% block content %}
+<div class="py-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 order-2 order-lg-1 p-0">
+		  	<div class="card"> <img class="card-img-top" src="https://static.pingendo.com/cover-moon.svg" alt="Card image cap">
+					<div class="card-body">
+						<h4 class="card-title">Profile Image</h4>
+						{{ wtf.quick_form(iform,  form_type="inline", button_map={'submit':'success'}) }} 
+			  		
+					</div>
+		  	</div>
+			</div>
+			<div class="px-0 col-lg-6 d-flex flex-column align-items-start order-1 order-lg-1">
+				<div class="card" style="width: 500px;">
+					
+					<div class="card-body">
+						<h2>User Profile</h2>
+						<p class="mb-3" style="margin-bottom: 1.0rem !important;">Hello 
+								<b style="font-size: larger; font-style: italic;">{{username}}</b>
+								!!! Please fill your user profile to help us get to know you better</p>
+						<div class="row" style="margin-left: 0px;">
+							<i>Current Email: </i> &emsp; <b> {{user.email}} </b> <br>	
+						</div>
+						<div class="row" style="margin-left: 0px; padding: 5px;">
+							{{ wtf.quick_form(eform,  form_type="inline", button_map={'submit':'success'}) }} 
+						</div>
+						<div class="row" style="margin-left: 0px;">
+							<i>Current Full Name: </i> &emsp; <b> {{user.name}} </b> <br>	
+						</div>
+						<div class="row" style="margin-left: 0px">
+							{{ wtf.quick_form(nform, form_type="inline", button_map={'submit':'success'}) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="py-5">
+<span class="input-status" data-toggle="tooltip" data-placement="top">
+	{% with messages= get_flashed_messages() %}
+	{% if messages %}
+	<div class="mx-auto p-4 col-md-7">
+		<ul class=flashes></ul>
+		
+		{% for message in messages %}
+			<li>{{ message }}</li>
+		{% endfor %}
+		</ul>
+	</div>
+	
+	{% endif %}
+	{% endwith %}
+</span>
+</div>
+{% endblock %}

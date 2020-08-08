@@ -3,6 +3,7 @@ from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
 from flask import Flask, request, current_app
 from flask_sqlalchemy import SQLAlchemy
+
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
@@ -27,7 +28,6 @@ moment = Moment()
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
@@ -65,6 +65,9 @@ def create_app(config_class=Config):
     ## add html files from framework and adapt them - modify routes
     from caw_app.manage_reviews import manage_reviews_bp
     app.register_blueprint(manage_reviews_bp)
+
+    from caw_app.profiles import profiles_bp
+    app.register_blueprint(profiles_bp)
 
     #from IPython import embed; embed()
     if not app.debug and not app.testing:

@@ -9,10 +9,24 @@ from flask_login import UserMixin, AnonymousUserMixin
 from caw_app.exceptions import ValidationError
 from . import db, login_manager ### Check db creation, startup and update
 
+
 association_table = db.Table('user_projects', db.Model.metadata,
                                 db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
                                 db.Column('project_id', db.Integer, db.ForeignKey('projects.id'))
                             )
+class Wmi():
+    #Who am I class
+    def __init__(self,current_user):
+        self.current_user=current_user
+    
+    def get_user_id(self):
+        return self.current_user.id
+    
+    def get_user(self):
+        return User.query.filter_by(id=self.get_user_id()).first()
+    
+    def get_username(self):
+        return self.get_user().username
 
 class Permission:
     FOLLOW = 1
@@ -83,13 +97,15 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
-    name = db.Column(db.String(64))
+    name = db.Column(db.String(128))
     avatar_hash = db.Column(db.String(32))
+    profile_image_path = db.Column(db.Text)
     ### Foreign Keys ###
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     ### Relationship Keys - Has Children (OLD)? - YES - Post, Comments
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
+    
     ### Relationship Keys - Has Children (NEW)? - YES - Projects
     projects_PC=db.relationship('Projects', secondary=association_table, back_populates='users_CP')
 
