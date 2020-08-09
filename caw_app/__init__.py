@@ -9,11 +9,12 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+from flask_uploads import UploadSet, IMAGES, configure_uploads
+from caw_app.config import Config
 #from flask_babel import Babel, lazy_gettext as _l
 #from elasticsearch import Elasticsearch
 #from redis import Redis
 #import rq
-from caw_app.config import Config
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -68,6 +69,9 @@ def create_app(config_class=Config):
 
     from caw_app.profiles import profiles_bp
     app.register_blueprint(profiles_bp)
+
+    images = UploadSet('images', IMAGES)
+    configure_uploads(app, images)
 
     #from IPython import embed; embed()
     if not app.debug and not app.testing:

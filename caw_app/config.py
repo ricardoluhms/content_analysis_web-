@@ -3,7 +3,8 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 #load_dotenv(os.path.join(basedir, '.env'))
-
+TOP_LEVEL_DIR= "c:/users/ricar/source/repos/content_analysis_web"
+#TOP_LEVEL_DIR = os.path.abspath(os.curdir)
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
@@ -24,5 +25,9 @@ class Config(object):
     REDIS_URL = os.environ.get('REDIS_URL') or 'redis://'
     POSTS_PER_PAGE = 25
     DEBUG= True
-    UPLOAD_FOLDER = '/uploads'
     ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','csv','xls','xlsx'}
+    UPLOADS_DEFAULT_DEST = TOP_LEVEL_DIR + '/caw_app/static/uploads/'
+    UPLOADS_DEFAULT_URL = 'http://127.0.0.1:5000/static/uploads/'
+    UPLOADED_IMAGES_DEST = TOP_LEVEL_DIR + '/caw_app/static/uploads/'
+    UPLOADED_IMAGES_URL = 'http://127.0.0.1:5000/static/uploads/'
+    

@@ -1,9 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\caw_app",
     "\\logs",
     "\\migrations"
   ],
-  "SelectedNode": "\\migrations",
+  "SelectedNode": "\\caw_app\\app.db",
   "PreviewInSolutionExplorer": true
 }

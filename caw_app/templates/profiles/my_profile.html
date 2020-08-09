@@ -13,7 +13,16 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6 order-2 order-lg-1 p-0">
-		  	<div class="card"> <img class="card-img-top" src="https://static.pingendo.com/cover-moon.svg" alt="Card image cap">
+			
+
+			
+		  	<div class="card">
+				
+				{% if user.profile_image_path %}	  
+				<img class="card-img-top" src="{{user.profile_image_path}}" alt="Card image cap">
+				{% else %}
+				<img class="card-img-top" src="https://static.pingendo.com/cover-moon.svg" alt="Card image cap">
+				{% endif %}
 					<div class="card-body">
 						<h4 class="card-title">Profile Image</h4>
 						{{ wtf.quick_form(iform,  form_type="inline", button_map={'submit':'success'}) }} 

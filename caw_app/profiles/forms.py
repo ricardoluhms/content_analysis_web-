@@ -1,14 +1,15 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileRequired
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import ValidationError, DataRequired
 from caw_app.models import User
 from werkzeug.utils import secure_filename
 
+allowed_images = { 'png', 'jpg', 'jpeg', 'gif'}
+
 
 class UploadImageForm(FlaskForm):
-    photo = FileField(validators=[FileRequired()])
-    #profile_image_path = StringField('Image', validators=[DataRequired()])
+    photo = FileField(validators=[FileRequired(),FileAllowed(allowed_images, 'Images only!')])
     submit = SubmitField('Add/Update Image')
 
 class NameForm(FlaskForm):
