@@ -34,15 +34,11 @@ def user_profile(username):
         filename = secure_filename(f.filename)
         dest=current_app.config['UPLOADS_DEFAULT_DEST']
         url=current_app.config['UPLOADS_DEFAULT_URL']
-        flash(dest)
-        flash(url)
         if not os.path.exists(dest):
             os.mkdir(dest)
 
         filepath = dest+filename; urlpath = url+filename
         f.save(filepath)
-        flash("filepath"); flash(filepath)
-        flash("url");      flash(urlpath)
         user.profile_image_path=urlpath
         db.session.add(user)
         db.session.commit()

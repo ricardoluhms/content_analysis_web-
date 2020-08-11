@@ -9,6 +9,13 @@
     opacity: 0.9;}</style>
 {% endblock %}
 
+{% block username %}
+<li><a class="btn btn-outline-primary ml-md-2" style="background:#f3f3f3 "> Hi {{username}} </a></li>
+<li><a class="btn btn-outline-primary ml-md-2" 
+  style="background:#f3f3f3 " 
+  href="{{ url_for('mngt.manage_screen')}}"> MANAGE SCREEN </a></li>
+{% endblock %}
+
 {% block content %}
   <div class="py-3 pl-0" style="background-color:#f3f3f3">
     <div class="container ml-1">
@@ -16,13 +23,13 @@
         <div class="col-md-3 ml-0" style="">
           <ul class="list-group">
             <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-              <a href="{{ url_for('mngt.manage_screen')}}"> MANAGE SCREEN </a><i class="fa fa-list text-muted fa-lg"></i></li>
+              <a href="{{ url_for('mngt.manage_screen')}}" style="text-decoration: none;" > MANAGE SCREEN </a><i class="fa fa-list text-muted fa-lg"></i></li>
             <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-              <a href="{{ url_for('mngt.new_review')}}">MY PROJECTS </a><i class="fa fa-pie-chart text-muted fa-lg"></i></li>
+              <a href="{{ url_for('mngt.new_project')}}">MY PROJECTS </a><i class="fa fa-pie-chart text-muted fa-lg"></i></li>
             <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-              <a href="{{ url_for('mngt.load_review')}}"> LOAD PROJECT / REVIEW </a><i class="fa fa-pie-chart text-muted fa-lg"></i></li>
+              <a href="{{ url_for('mngt.load_project')}}"> LOAD PROJECT / REVIEW </a><i class="fa fa-pie-chart text-muted fa-lg"></i></li>
             <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-              <a href="{{ url_for('mngt.share_review')}}">SHARE PROJECT / REVIEW </a><i class="fa fa-pie-chart text-muted fa-lg"></i></li>
+              <a href="{{ url_for('mngt.share_project')}}">SHARE PROJECT / REVIEW </a><i class="fa fa-pie-chart text-muted fa-lg"></i></li>
             <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
               <a href= "{{ url_for('prof.user_profile', username=username) }}" > MY PROFILE </a> <i class="fa fa-cog text-muted fa-lg"></i></li>
 
@@ -30,11 +37,11 @@
               <a href="{{ url_for('auth.logout')}}"> LOG OUT</a> <i class="fa fa-sign-out text-muted fa-lg"></i></li>
           </ul>
         </div>
-        {% block new_review %}
+        {% block new_project %}
         <div class="p-2 col-lg-3" style="">
           <div class="card">
             <div class="card-body p-4" style="">
-              <a  href="{{ url_for('mngt.new_review') }}">
+              <a  href="{{ url_for('mngt.new_project') }}">
               <img class="img-fluid d-block mb-3 mx-auto rounded" 
                   src= '/static/media/start_project.png' width="250"></a>
               <h3>Start a New Project</h3>
@@ -45,7 +52,7 @@
         <div class="p-2 col-lg-3" style="">
           <div class="card">
             <div class="card-body p-4"> 
-                <a  href="{{ url_for('mngt.load_review') }}">
+                <a  href="{{ url_for('mngt.load_project') }}">
                 <img class="img-fluid d-block mb-3 mx-auto rounded" 
                     src= '/static/media/load_a_project1.png' width="250"></a>
                 <h3>Load a Project</h3>
@@ -56,7 +63,7 @@
         <div class="p-2 col-lg-3" style="">
           <div class="card">
             <div class="card-body p-4"> 
-                <a  href="{{ url_for('mngt.share_review') }}">
+                <a  href="{{ url_for('mngt.share_project') }}">
                 <img class="img-fluid d-block mb-3 mx-auto rounded" 
                     src= '/static/media/share_review_main1.png' width="250"></a>
                 <h3>Share a your Project</h3>

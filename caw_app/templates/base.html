@@ -3,32 +3,51 @@
 {% block title %}
 {% endblock %}
 
+{% block head %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css">
+{% endblock %}
+
 {% block navbar %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container"> 
-            <!-- <button class="navbar-toggler navbar-toggler-right border-0" type="button" 
-                        data-toggle="collapse" data-target="navbar11">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="min-height: 35px;">
+        <div class="container">
+            <a class="navbar-brand" href=  ''> 
+                <b style=""> Content Analysis Web</b>
+                <i class="fa d-inline fa-lg fa-circle-o"></i>
+            </a> 
+            <button class="navbar-toggler navbar-toggler-right border-0" type="button" 
+                        data-toggle="collapse" data-target="navbar11">  
                 <span class="navbar-toggler-icon"></span>
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-            </button> -->
-            <a class="navbar-brand" href=  ''> <i class="fa d-inline fa-lg fa-circle-o"></i>
-                <b style=""> Content Analysis Web</b>
-            </a> 
+            </button>
+   
             <div class="collapse navbar-collapse" id="navbar11">
-                <ul class="nav navbar-nav">
+                <ul class="navbar-nav ml-auto" style="display: inline-flex;">
                     
-                    <li><a class="btn btn-primary navbar-btn ml-md-2" href="{{ url_for('main.index')}}"> Home </a></li>
+                    <li class="nav-item"> <a class="btn btn-primary navbar-btn"
+                        href="{{ url_for('main.index')}}" style="padding: 5px; margin: 2px;"> Home </a></li>
+                    <li class="list-inline-item"><a class="btn btn-primary navbar-btn" 
+                        href="{{ url_for('main.about')}}" style="padding: 5px; margin: 2px;"> About </a></li>
                     {% if current_user.is_anonymous %}
-                    <li><a class="btn btn-primary navbar-btn ml-md-2" href="{{ url_for('auth.login')}}"> Login </a></li>
+                    <li class="nav-item"><a class="btn btn-primary navbar-btn" 
+                            href="{{ url_for('auth.login')}}" style="padding: 5px; margin: 2px;"> Login </a></li>
                     {% else %}
-                    <li><a class="btn btn-primary navbar-btn ml-md-2"href="{{ url_for('auth.logout')}}"> Logout </a></li>
-                    {% block username %}
-                    {% endblock %}
+
+                    <li><a class="btn btn-outline-primary" 
+                        style="background:#f3f3f3; padding: 5px; margin: 2px; "> Hi {{username}} </a></li>
+
+                    <li><a class="btn btn-primary navbar-btn"  href="{{ url_for('mngt.manage_screen')}}" 
+                        style="padding: 5px; margin: 2px;"> MANAGE SCREEN </a></li>
+                     
+                    <li class="nav-item"><a class="btn btn-danger navbar-btn"
+                            href="{{ url_for('auth.logout')}}" style="padding: 5px; margin: 2px;"> Logout </a></li>
                     {% endif %}
-                    <li><a class="btn btn-primary navbar-btn ml-md-2" href="{{ url_for('main.about')}}"> About </a></li>
+
                 </ul>
             </div>
         </div>
@@ -43,4 +62,3 @@
     {{ moment.include_moment() }}
     {{ moment.lang(g.locale) }}
 {% endblock %}
-

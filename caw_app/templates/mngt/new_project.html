@@ -1,0 +1,76 @@
+{% extends "mngt/manage_screen.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block new_project %}>
+  <div class="col-xl" style="background-color:#f3f3f3; padding: 5px;">
+    <div class="card">
+      <div class="card-body p-2" style="background-color: #0c5f58; 
+                                        border: #000000; 
+                                        color:#f3f3f3;
+                                        border-width: 1px;
+                                        border-color: #000000;">
+        <span ><b style="font-size: larger; ">Create New Project</b></span>
+      </div>
+      <div class="card-body p-2" style="background-color: #12bbad; 
+                                        border: #000000; 
+                                        color:#f3f3f3;
+                                        border-width: 3px;
+                                        border-color: #000000;">
+        <div class="form-field" style="padding: 5px;">
+          {{ wtf.quick_form(form, button_map={'submit':'success'}) }}
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body p-2" style="background-color: #0c5f58; 
+                                        border: #000000; 
+                                        color:#f3f3f3;
+                                        border-width: 1px;
+                                        border-color: #000000;
+                                        margin-bottom: 3px;">
+        <span ><b style="font-size: larger; "> Manage your Projects</b></span>
+                
+        {{ wtf.quick_form(form2, button_map={'submit3':'danger','submit2':'success'}) }}<br>
+
+      </div>
+      <div class="card-body p-2" style="background-color: #0e9186; 
+                                        border: #000000; 
+                                        color:#4e3f3f;
+                                        border-width: 3px;
+                                        border-color: #000000;">
+        <div class="form-field" style="padding: 5px;">
+          <span ><b style="font-size: larger; color:#faf6f6"> Existing Project List</b></span><br>
+          <ul class="flashes" style="display: inline-table; margin: 2px;">
+            
+          {% for project in project_list %}
+          <li style="margin: 5px">{{ project.project_name }}</li>
+          {% endfor %}
+          </ul>
+        </div>
+        <div class="row submit-row">
+          <span class="input-status" data-toggle="tooltip" data-placement="top">
+            {% with messages= get_flashed_messages() %}
+            {% if messages %}
+            
+            <div class="card-body p-2">
+              <span ><b style="font-size: larger; color:#faf6f6; padding: 5px; "> Message Status</b></span>
+              <ul class=flashes>
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+              </ul>
+              
+            </div>
+            
+            {% endif %}
+            {% endwith %}
+          </span>
+        </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
