@@ -19,12 +19,8 @@
         REVIEW AND ITERATION </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
 
 <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-  <a href="{{ url_for('mngt.solution_space', project_name=project_name,review_name=review_name)}}"> 
-        SOLUTION SPACE</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
-
-<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-  <a href="{{ url_for('mngt.problem_space', project_name=project_name,review_name=review_name)}}"> 
-        PROBLEM SPACE</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+  <a href="{{ url_for('mngt.solution_problem_space', project_name=project_name,review_name=review_name)}}"> 
+    SOLUTION & PROBLEM SPACE</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
 
 <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
   <a href="{{ url_for('mngt.groups_space', project_name=project_name,review_name=review_name)}}"> 
@@ -61,7 +57,7 @@
 <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
   <a href="{{ url_for('mngt.analysis', project_name=project_name,review_name=review_name)}}"> 
         DOCUMENTENT RECOMMENDATION ANALYSIS </a><i class="fa fa-repeat text-muted fa-lg"></i></li>        
-  {% endblock %}
+{% endblock %}
 
 {% block review_core %}
 <style>
@@ -74,39 +70,32 @@
     <div class="card-body p-2">
       <h3> Review Details:</h3>
       <ul>
-        <li><span ><b style="font-size: larger; "> - Project Name:</b></span></li>
-        <li><span ><b style="font-size: larger; "> - Recommended Review Name:</b></span></li>
+        <li><span ><b style="font-size: larger; "> - Project Name: {{project_name}}</b></span></li>
+        <li><span ><b style="font-size: larger; "> - Recommended Review Name: {{review_name}}</b></span></li>
       </ul>
     </div>
     <div class="card-body p-2">
-      <div class="form-field" style="padding: 5px;">
-        Rename Review
-        Update Iteration
-        Accept Review name
-        <br>
+      {{ wtf.quick_form(form1, button_map={'submit4':'success'}) }}
+    </div>
+    <div class="card-body p-2">
+      {{ wtf.quick_form(form2, button_map={'submit5':'warning','submit6':'danger','submit7':'success'}) }}
+    </div>
+    <div class="row submit-row">
+      <span class="input-status" data-toggle="tooltip" data-placement="top">
+      {% with messages= get_flashed_messages() %}
+      {% if messages %}
+      <div class="card-body p-2">
+        <span ><b style="font-size: larger; color:#faf6f6; padding: 5px; "> Message Status</b></span>
+        <ul class=flashes>
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
       </div>
+      {% endif %}
+      {% endwith %}
+      </span>
     </div>
-  <div class="form-field" style="padding: 5px;">
-    <span ><b style="font-size: larger; color:#faf6f6"> Existing Project List</b></span><br>
-    <ul class="flashes" style="display: inline-table; margin: 2px;">
-      <li>Lista de Reviews</li>
-    </ul>
-  </div>
-  <div class="row submit-row">
-    <span class="input-status" data-toggle="tooltip" data-placement="top">
-    {% with messages= get_flashed_messages() %}
-    {% if messages %}
-    <div class="card-body p-2">
-      <span ><b style="font-size: larger; color:#faf6f6; padding: 5px; "> Message Status</b></span>
-      <ul class=flashes>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
-    {% endwith %}
-    </span>
   </div>
 </div>
 {% endblock %}

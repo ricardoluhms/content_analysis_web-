@@ -2,7 +2,8 @@ from flask import render_template, url_for, request, flash, redirect
 from flask_login import current_user, login_required
 from caw_app.manage_reviews import manage_reviews_bp
 from caw_app.models import Projects, Reviews, User, Wmi
-from caw_app.manage_reviews.forms import New_Project_Form, Search_Project_Form
+from caw_app.manage_reviews.forms import New_Project_Form, Search_Project_Form, Manage_Review_Form,\
+    Edit_Review_Name_Form
 from caw_app import db
 
 @manage_reviews_bp.route('/manage_screen', methods=['GET', 'POST'])
@@ -35,7 +36,7 @@ def new_project():
             review=Reviews.query.filter_by(project_id=pjct.id).first()
             review_name=review.review_name
         else:
-            review_name=str(pjct.project_name)+":_Review_Iteration__000"
+            review_name=str(pjct.project_name)+":_Review_Iteration__0"
             create_new_review=Reviews(review_name=review_name, project_id=pjct.id)
             db.session.add(create_new_review)
             db.session.commit()
@@ -67,21 +68,75 @@ def share_project():
 @login_required
 def new_review(project_name,review_name):
     wmi=Wmi(current_user);  user_id=wmi.get_user_id();  username=wmi.get_username()
-    ###add review name form
-    ###modifiy review name form
-    ###open review data
-    return render_template('mngt/new_review.html', username=username, project_name=project_name, review_name=review_name)
+    ### Start Forms
+    form1=Edit_Review_Name_Form()
+    form2=Manage_Review_Form()
+    
+    ### Load data from DB
+    project=Projects.query.filter_by(project_name=project_name).first()
+    current_review=Reviews.query.filter_by(review_name=review_name, project_id=project.id).first()
 
-@manage_reviews_bp.route('/<project_name>/<review_name>/problem_space', methods=['GET', 'POST'])
+    reviews=Reviews.query.filter_by(project_id=project.id).all()
+    form2.review_names.choices= [(revy.review_name,revy.review_name) for revy in reviews]
+
+    
+    ###Modifiy review name form
+    if form1.validate_on_submit() and form1.submit4.data:
+        if not current_review:
+            current_review=Reviews.query.filter_by(project_id=project.id).first()
+        review_name=form1.new_review_name.data+"_Iteration__0"
+        current_review.review_name=review_name
+        db.session.add(current_review)
+        db.session.commit()
+        return redirect(url_for("mngt.new_review",
+                                project_name=project_name, 
+                                review_name=review_name)
+                       )
+
+    ###Open review 
+    if form2.validate_on_submit() and form2.submit5.data:
+        review_name=form2.review_names.data
+        return redirect(url_for("mngt.solution_problem_space",
+                                project_name=project_name, 
+                                review_name=review_name)
+                        )
+    ###Delete review name form
+    elif form2.validate_on_submit() and form2.submit6.data:
+        selected_review= Reviews.query.filter_by(project_id=project.id, review_name=form2.review_names.data).first()
+        db.session.delete(selected_review)
+        db.session.commit()
+        review=Reviews.query.filter_by(project_id=project.id).first()
+        review_name=review.review_name
+        
+        return redirect(url_for("mngt.new_review",
+                                project_name=project_name, 
+                                review_name=review_name)
+                        )
+
+    #Add New Review Itereration
+    elif form2.validate_on_submit() and form2.submit7.data:
+        selected_review= Reviews.query.filter_by(project_id=project.id, review_name=form2.review_names.data).first()
+        prev_iter_name=selected_review.review_name
+        review_name=prev_iter_name.split('_Iteration__')[0]+'_Iteration__'+str(int(prev_iter_name.split('_Iteration__')[1])+1)
+        create_new_review=Reviews(review_name=review_name, project_id=project.id)
+        db.session.add(create_new_review)
+        db.session.commit()
+        return redirect(url_for("mngt.new_review",
+                                project_name=project_name, 
+                                review_name=review_name))
+
+    return render_template('mngt/new_review.html', 
+                            username=username, 
+                            project_name=project_name, 
+                            review_name=review_name,
+                            form1=form1 , form2=form2)
+    
+@manage_reviews_bp.route('/<project_name>/<review_name>/solution_problem_space', methods=['GET', 'POST'])
 @login_required
-def problem_space(project_name,review_name):
+def solution_problem_space(project_name,review_name):
     wmi=Wmi(current_user);  user_id=wmi.get_user_id();  username=wmi.get_username()
-    return render_template('mngt/problem_space.html', username=username)
+    return render_template('mngt/solution_problem_space.html', username=username)
 
-@manage_reviews_bp.route('/<project_name>/<review_name>/solution_space', methods=['GET', 'POST'])
-def solution_space(project_name,review_name):
-    wmi=Wmi(current_user);  user_id=wmi.get_user_id();  username=wmi.get_username()
-    return render_template('mngt/solution_space.html', username=username)
 
 @manage_reviews_bp.route('/<project_name>/<review_name>/groups_space', methods=['GET', 'POST'])
 def groups_space(project_name,review_name):

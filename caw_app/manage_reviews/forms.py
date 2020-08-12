@@ -13,6 +13,12 @@ class Search_Project_Form(FlaskForm):
     submit2 = SubmitField('Open')
     submit3 = SubmitField('Delete')
 
-class Modify_Review_Form(FlaskForm):
-    new_review_name =StringField('Modify Review Name', choices=[])
-    submit = SubmitField('Save Modification')
+class Edit_Review_Name_Form(FlaskForm):
+    new_review_name = StringField('Review Name')
+    submit4 = SubmitField('Rename Review')
+
+class Manage_Review_Form(FlaskForm):
+    review_names =SelectField('Existing Reviews', choices=[])
+    submit5 = SubmitField('Open Review')
+    submit6 = SubmitField('Delete Review')
+    submit7 = SubmitField('Add New Review Itereration')

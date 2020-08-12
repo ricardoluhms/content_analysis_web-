@@ -1,0 +1,103 @@
+{% extends "mngt/new_review.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block review_core %}
+<div class="py-2 pl-0" >
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <h2 class="text-center align-items-center" >Problem Space</h2>
+        </div>
+        <div class="col-md-9" >
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">- Question - Describe what is the problem you will solve with your research </div>
+                <div class="card-body">
+                  <p>Help Text: Which are the benefits that will come after solving this problem? </p>
+                  <p>Help Text: Example: Projects restrictions/Limitations of existing technologies </p>
+                  <p>Add Text Input Area<br></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row my-2">
+            <div class="col-md-6 m-1" ><a class="btn btn-primary p-1" href="#">Save</a></div>
+            <div class="col-md-6 m-1"><a class="btn btn-secondary" href="#">Delete</a></div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header"> Saved Problem Space Output </div>
+                <div class="card-body">
+                  <blockquote class="blockquote mb-0">
+                    <p>Saved Problem Text</p>
+                    <footer class="blockquote-footer">Last Modified Time/Data/User</footer>
+                  </blockquote>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="py-2 pl-0 my-3" >
+  <div class="container">
+    <div class="row" >
+      <div class="col-md-3">
+        <h2 class="text-center align-items-center">Solution Space</h2>
+      </div>
+      <div class="col-md-9" >
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">- Question - Define which are the solutions/existing technologies for that problem. </div>
+              <div class="card-body">
+                <p>Help Text: Which are the key technologies that will be used? </p>
+                <p>Help Text: Projects restrictions/limitations/development points of existing technologies </p>
+                <p >Add Text Input Area<br></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row my-2">
+          <div class="col-md-6 m-1" ><a class="btn btn-primary p-1" href="#">Save</a></div>
+          <div class="col-md-6 m-1"><a class="btn btn-secondary" href="#">Delete</a></div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header"> Saved Solution Space Output </div>
+              <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                  <p>Saved Solution Text</p>
+                  <footer class="blockquote-footer">Last Modified Time/Data/User</footer>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row submit-row">
+    <span class="input-status" data-toggle="tooltip" data-placement="top">
+    {% with messages= get_flashed_messages() %}
+    {% if messages %}
+    <div class="card-body p-2">
+      <span ><b style="font-size: larger; color:#faf6f6; padding: 5px; "> Message Status</b></span>
+      <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+    {% endwith %}
+    </span>
+</div>
+
+{% endblock %}
