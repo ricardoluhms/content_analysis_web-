@@ -1,0 +1,25 @@
+{% extends "mngt/new_review.html" %}
+{% block checkprojects %}
+<div class="card">
+    <div class="card-body p-2" style="background-color: #0c5f58; 
+                                      border: #000000; 
+                                      color:#f3f3f3;
+                                      border-width: 1px;
+                                      border-color: #000000;">
+      <span ><b style="font-size: larger; ">Project List:</b></span>
+    </div>
+    <div class="card-body p-2" style="background-color: #12bbad; 
+                                      border: #000000; 
+                                      color:#f3f3f3;
+                                      border-width: 3px;
+                                      border-color: #000000;">
+      <div class="form-field" style="padding: 5px;">
+        <ul class=flashes></ul>
+        {% for project in project_list %}
+        <li>{{ project.project_name}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

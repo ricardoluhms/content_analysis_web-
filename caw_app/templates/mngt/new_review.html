@@ -1,0 +1,113 @@
+{% extends "mngt/manage_screen.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css">
+  <style> .fade:not(.show) {
+    opacity: 0.9;}</style>
+{% endblock %}
+
+{% block new_review_side %}
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.load_project')}}"> LOAD PROJECT / REVIEW </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+   <a href="{{ url_for('mngt.new_review', project_name=project_name,review_name=review_name)}}"> 
+        REVIEW AND ITERATION </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.solution_space', project_name=project_name,review_name=review_name)}}"> 
+        SOLUTION SPACE</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.problem_space', project_name=project_name,review_name=review_name)}}"> 
+        PROBLEM SPACE</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.groups_space', project_name=project_name,review_name=review_name)}}"> 
+        DEFINE GROUPS </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+        
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.group_relation', project_name=project_name,review_name=review_name)}}"> 
+        DEFINE GROUPS RELATIONSHIP</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.venn_diagram', project_name=project_name,review_name=review_name)}}"> 
+        GENERATE VENN'S DIAGRAM</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.group_keywords', project_name=project_name,review_name=review_name)}}"> 
+        ASSIGN KEYWORDS TO GROUP</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.other_features', project_name=project_name,review_name=review_name)}}"> 
+        DEFINE OTHER RESEARCH PARAMETERS </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.keywords_exclusions', project_name=project_name,review_name=review_name)}}"> 
+        KEYWORDS EXCLUSION </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.search_string', project_name=project_name,review_name=review_name)}}"> 
+        GENERATE SEARCH STRING </a><i class="fa fa-repeat text-muted fa-lg"></i></li>        
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.search_results', project_name=project_name,review_name=review_name)}}"> 
+        MANAGE SEARCH RESULTS </a><i class="fa fa-repeat text-muted fa-lg"></i></li>        
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.analysis', project_name=project_name,review_name=review_name)}}"> 
+        DOCUMENTENT RECOMMENDATION ANALYSIS </a><i class="fa fa-repeat text-muted fa-lg"></i></li>        
+  {% endblock %}
+
+{% block review_core %}
+<style>
+.card-body {background-color: #0c5f58; border: #000000; 
+                color:#f3f3f3; border-width: 1px;
+                border-color: #000000;}
+</style>
+<div class="col-xl" style="background-color:#f3f3f3; padding: 5px;">
+  <div class="card">
+    <div class="card-body p-2">
+      <h3> Review Details:</h3>
+      <ul>
+        <li><span ><b style="font-size: larger; "> - Project Name:</b></span></li>
+        <li><span ><b style="font-size: larger; "> - Recommended Review Name:</b></span></li>
+      </ul>
+    </div>
+    <div class="card-body p-2">
+      <div class="form-field" style="padding: 5px;">
+        Rename Review
+        Update Iteration
+        Accept Review name
+        <br>
+      </div>
+    </div>
+  <div class="form-field" style="padding: 5px;">
+    <span ><b style="font-size: larger; color:#faf6f6"> Existing Project List</b></span><br>
+    <ul class="flashes" style="display: inline-table; margin: 2px;">
+      <li>Lista de Reviews</li>
+    </ul>
+  </div>
+  <div class="row submit-row">
+    <span class="input-status" data-toggle="tooltip" data-placement="top">
+    {% with messages= get_flashed_messages() %}
+    {% if messages %}
+    <div class="card-body p-2">
+      <span ><b style="font-size: larger; color:#faf6f6; padding: 5px; "> Message Status</b></span>
+      <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+    {% endwith %}
+    </span>
+  </div>
+</div>
+{% endblock %}
+

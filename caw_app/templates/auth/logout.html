@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css">
+{% endblock %}
+
+{% block content %}
+<div class="py-5 text-center align-items-center d-flex" 
+     style="background-image: linear-gradient(to left bottom, rgba(189, 195, 199, .75), rgba(44, 62, 80, .75)); 
+            background-size: 100%;">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-md-8 mx-auto"> <i class="d-block fa fa-stop-circle mb-3 text-muted fa-5x"></i>
+          <h3 class="display-3 mb-4">“You have successfully logged out!”</h3>
+          <p class="lead mb-5">Thank for using our tool. We hoped that you enjoyed it!</p> 
+          <a class="btn btn-lg mx-1 btn-outline-dark" href="/index">Home</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
