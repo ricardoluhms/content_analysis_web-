@@ -1,4 +1,5 @@
-{% extends "base.html" %}
+{% extends "mngt/manage_screen.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block head %}
   <meta charset="utf-8">
@@ -9,506 +10,103 @@
     opacity: 0.9;}</style>
 {% endblock %}
 
-{% block username %}
-<li><a class="btn btn-outline-primary ml-md-2" style="background:#f3f3f3 "> Hi {{username}} </a></li>
-<li><a class="btn btn-outline-primary ml-md-2" 
-  style="background:#f3f3f3 " 
-  href="{{ url_for('mngt.manage_screen')}}"> MANAGE MENU </a></li>
-<li><a class="btn btn-outline-primary ml-md-2" 
-    style="background:#f3f3f3 " 
-    href="{{ url_for('mngt.manage_screen')}}"> PROJECTS MENU  </a></li>
-{% endblock %}
+{% block new_review_side %}
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.load_project')}}"> LOAD PROJECT / REVIEW </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
 
-{% block content %}>
-<div class="py-3 pl-0" style="background-color:#f3f3f3">
-  <div class="container ml-1">
-    <div class="row">
-      <div class="col-md-3 ml-0" style="">
-        <ul class="list-group">
-          <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-            <a href="{{ url_for('mngt.manage_screen')}}" style="text-decoration: none;" > MANAGE SCREEN </a><i class="fa fa-list text-muted fa-lg"></i></li>
-          <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-            <a href="{{ url_for('mngt.new_project')}}">MY PROJECTS </a><i class="fa fa-pie-chart text-muted fa-lg"></i></li>
-          <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-            <a href="{{ url_for('mngt.load_project')}}"> LOAD PROJECT / REVIEW </a><i class="fa fa-pie-chart text-muted fa-lg"></i></li>
-          <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-            <a href="{{ url_for('mngt.share_project')}}">SHARE PROJECT / REVIEW </a><i class="fa fa-pie-chart text-muted fa-lg"></i></li>
-          <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-            <a href= "{{ url_for('prof.user_profile', username=username) }}" > MY PROFILE </a> <i class="fa fa-cog text-muted fa-lg"></i></li>
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+   <a href="{{ url_for('mngt.new_review', project_name=project_name,review_name=review_name)}}"> 
+        REVIEW AND ITERATION </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
 
-          <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-            <a href="{{ url_for('auth.logout')}}"> LOG OUT</a> <i class="fa fa-sign-out text-muted fa-lg"></i></li>
-        </ul>
-      </div>
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.solution_space', project_name=project_name,review_name=review_name)}}"> 
+        SOLUTION SPACE</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
 
-      
-{% endblock %}
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.problem_space', project_name=project_name,review_name=review_name)}}"> 
+        PROBLEM SPACE</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
 
-{% block content2 %}>
-<div class="py-2 pl-0" style="">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-3">
-        <h2 class="text-center align-items-center" style="">Problem Space</h2>
-      </div>
-      <div class="col-md-9" style="">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">- Question - Describe what is the problem you will solve with your research </div>
-              <div class="card-body">
-                <p>Help Text: Which are the benefits that will come after solving this problem? </p>
-                <p>Help Text: Example: Projects restrictions/Limitations of existing technologies </p>
-                <p>Add Text Input Area<br></p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row my-2">
-          <div class="col-md-6 m-1" style=""><a class="btn btn-primary p-1" href="#">Save</a></div>
-          <div class="col-md-6 m-1"><a class="btn btn-secondary" href="#">Delete</a></div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header"> Saved Problem Space Output </div>
-              <div class="card-body">
-                <blockquote class="blockquote mb-0">
-                  <p>Saved Problem Text</p>
-                  <footer class="blockquote-footer">Last Modified Time/Data/User</footer>
-                </blockquote>
-              </div>
-            </div>
-          </div>
-        </div>
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.groups_space', project_name=project_name,review_name=review_name)}}"> 
+        DEFINE GROUPS </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+        
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.group_relation', project_name=project_name,review_name=review_name)}}"> 
+        DEFINE GROUPS RELATIONSHIP</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.venn_diagram', project_name=project_name,review_name=review_name)}}"> 
+        GENERATE VENN'S DIAGRAM</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.group_keywords', project_name=project_name,review_name=review_name)}}"> 
+        ASSIGN KEYWORDS TO GROUP</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.other_features', project_name=project_name,review_name=review_name)}}"> 
+        DEFINE OTHER RESEARCH PARAMETERS </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.keywords_exclusions', project_name=project_name,review_name=review_name)}}"> 
+        KEYWORDS EXCLUSION </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.search_string', project_name=project_name,review_name=review_name)}}"> 
+        GENERATE SEARCH STRING </a><i class="fa fa-repeat text-muted fa-lg"></i></li>        
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.search_results', project_name=project_name,review_name=review_name)}}"> 
+        MANAGE SEARCH RESULTS </a><i class="fa fa-repeat text-muted fa-lg"></i></li>        
+
+<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+  <a href="{{ url_for('mngt.analysis', project_name=project_name,review_name=review_name)}}"> 
+        DOCUMENTENT RECOMMENDATION ANALYSIS </a><i class="fa fa-repeat text-muted fa-lg"></i></li>        
+  {% endblock %}
+
+{% block review_core %}
+<style>
+.card-body {background-color: #0c5f58; border: #000000; 
+                color:#f3f3f3; border-width: 1px;
+                border-color: #000000;}
+</style>
+<div class="col-xl" style="background-color:#f3f3f3; padding: 5px;">
+  <div class="card">
+    <div class="card-body p-2">
+      <h3> Review Details:</h3>
+      <ul>
+        <li><span ><b style="font-size: larger; "> - Project Name:</b></span></li>
+        <li><span ><b style="font-size: larger; "> - Recommended Review Name:</b></span></li>
+      </ul>
+    </div>
+    <div class="card-body p-2">
+      <div class="form-field" style="padding: 5px;">
+        Rename Review
+        Update Iteration
+        Accept Review name
+        <br>
       </div>
     </div>
+  <div class="form-field" style="padding: 5px;">
+    <span ><b style="font-size: larger; color:#faf6f6"> Existing Project List</b></span><br>
+    <ul class="flashes" style="display: inline-table; margin: 2px;">
+      <li>Lista de Reviews</li>
+    </ul>
   </div>
-</div>
-<div class="py-2 pl-0 my-3" style="">
-  <div class="container">
-    <div class="row" style="">
-      <div class="col-md-3">
-        <h2 class="text-center align-items-center">Solution Space</h2>
-      </div>
-      <div class="col-md-9" style="">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">- Question - Define which are the solutions/existing technologies for that problem. </div>
-              <div class="card-body">
-                <p>Help Text: Which are the key technologies that will be used? </p>
-                <p>Help Text: Projects restrictions/limitations/development points of existing technologies </p>
-                <p style="">Add Text Input Area<br></p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row my-2">
-          <div class="col-md-6 m-1" style=""><a class="btn btn-primary p-1" href="#">Save</a></div>
-          <div class="col-md-6 m-1"><a class="btn btn-secondary" href="#">Delete</a></div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header"> Saved Solution Space Output </div>
-              <div class="card-body">
-                <blockquote class="blockquote mb-0">
-                  <p>Saved Solution Text</p>
-                  <footer class="blockquote-footer">Last Modified Time/Data/User</footer>
-                </blockquote>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="row submit-row">
+    <span class="input-status" data-toggle="tooltip" data-placement="top">
+    {% with messages= get_flashed_messages() %}
+    {% if messages %}
+    <div class="card-body p-2">
+      <span ><b style="font-size: larger; color:#faf6f6; padding: 5px; "> Message Status</b></span>
+      <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
     </div>
-  </div>
-</div>
-<div class="py-2 pl-0 my-3" style="">
-  <div class="container">
-    <div class="row" style="">
-      <div class="col-md-3">
-        <h2 class="text-center align-items-center">Define Main Groups</h2>
-      </div>
-      <div class="col-md-9" style="">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card text-white bg-primary mb-1">
-              <div class="card-header">Group 1</div>
-              <div class="card-body">
-                <h5 class="card-title">Add text Input for Group 1 Name * Mandatory Field</h5>
-                <p class="card-text">Add text input for Group 1 details&nbsp;* Non Mandatory Field</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row my-2">
-          <div class="col-md-6 pb-1" style=""><a class="btn btn-primary p-1" href="#">Save</a></div>
-          <div class="col-md-6"><a class="btn btn-secondary" href="#">Rename</a></div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card text-white bg-secondary mb-1">
-              <div class="card-header">Group 2</div>
-              <div class="card-body">
-                <h5 class="card-title">Add text Input for Group 2 Name * Mandatory Field</h5>
-                <p class="card-text">Add text input for Group 2 details * Non Mandatory Field</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row my-2">
-          <div class="col-md-6 m-1" style=""><a class="btn btn-primary p-1" href="#">Save</a></div>
-          <div class="col-md-6 m-1"><a class="btn btn-secondary" href="#">Rename</a></div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card bg-light mb-1">
-              <div class="card-header">Group 3</div>
-              <div class="card-body">
-                <h5 class="card-title">Add text Input for Group 3 Name * Mandatory Field</h5>
-                <p class="card-text">Add text input for Group 3 details * Non Mandatory Field</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row my-2">
-          <div class="col-md-6 m-1" style=""><a class="btn btn-primary p-1" href="#">Save</a></div>
-          <div class="col-md-6 m-1"><a class="btn btn-secondary" href="#">Rename</a></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="py-2 pl-0 my-3" style="">
-  <div class="container">
-    <div class="row" style="">
-      <div class="col-md-3">
-        <h2 class="text-center align-items-center">Add Group Relationship</h2>
-      </div>
-      <div class="col-md-9" style="">
-        <div class="row">
-          <div class="col-md-12">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item"><i class="fa fa-cloud text-primary mr-2"></i>Group 1 and Group 2</li>
-              <li class="list-group-item" style=""><i class="fa fa-bookmark text-primary mr-2"></i>Group 1 and Group 3</li>
-              <li class="list-group-item"><i class="fa fa-bell text-primary mr-2"></i>Group 2 and Group 3</li>
-              <li class="list-group-item" style=""><i class="fa fa-life-ring text-primary mr-2"></i>All intersections</li>
-            </ul>
-          </div>
-        </div>
-        <div class="row my-1">
-          <div class="col-md-12" style=""><a class="btn btn-primary p-1" href="#">Save/Update</a></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="py-2 pl-0 my-3" style="">
-  <div class="container">
-    <div class="row" style="">
-      <div class="col-md-3" style="">
-        <h2 class="text-center align-items-center">Create Venn Diagram </h2>
-      </div>
-      <div class="col-md-9" style="">
-        <div class="row my-2">
-          <div class="col-md-6 m-1"><a class="btn btn-primary" href="#">Generate/Update Image</a></div>
-          <div class="col-md-6 m-1"><a class="btn btn-secondary" href="#">Update</a></div>
-        </div>
-        <h1 class="">Diagram Results</h1><img class="img-fluid d-block rounded-circle" src="https://static.pingendo.com/img-placeholder-3.svg">
-      </div>
-    </div>
-  </div>
-</div>
-<div class="py-2 pl-0 my-3" style="">
-  <div class="container">
-    <div class="row" style="">
-      <div class="col-md-3" style="">
-        <h2 class="text-center align-items-center" style="">Keyword by Group </h2>
-      </div>
-      <div class="col-md-9" style="">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="card text-white bg-primary mb-1">
-              <div class="card-header">Group 1</div>
-              <div class="card-body" style="">
-                <h5 class="card-title">Add Group 1 Keywords Space</h5>
-                <p class="card-text" style="">Ex: "keyword A"; "keyword B"; "keyword C"</p>
-              </div>
-            </div>
-            <div class="row py-1">
-              <div class="col-md-12" style=""><a class="btn btn-primary" href="#">Add</a></div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="list-group">
-                  <a href="#" class="list-group-item list-group-item-action active py-1">Group 1 List</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword A - Add checkbox</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword <b>B</b> - Add checkbox</a>
-                  <a href="#" class="list-group-item list-group-item-action" contenteditable="true">Keyword A - Add checkbox</a>
-                </div>
-              </div>
-            </div><a class="btn btn-secondary my-1" href="#">Delete</a>
-          </div>
-          <div class="col-md-4" style="">
-            <div class="card text-white bg-secondary mb-1">
-              <div class="card-header">Group 2</div>
-              <div class="card-body">
-                <h5 class="card-title">Add Group 2 Keywords Space</h5>
-                <p class="card-text">Ex: "keyword D"; "keyword E"; "keyword F"</p>
-              </div>
-            </div>
-            <div class="row py-1">
-              <div class="col-md-12" style=""><a class="btn btn-primary" href="#">Add</a></div>
-            </div>
-            <div class="row">
-              <div class="col-md-12" style="">
-                <div class="list-group pb-1">
-                  <a href="#" class="list-group-item list-group-item-action active py-1" style="">Group 2 List - Change Color</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword D- Add checkbox</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword <b>E</b> - Add checkbox</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword F - Add checkbox</a>
-                </div>
-              </div>
-            </div><a class="btn btn-secondary my-1" href="#">Delete</a>
-          </div>
-          <div class="col-md-4">
-            <div class="card bg-light mb-1">
-              <div class="card-header">Group 3</div>
-              <div class="card-body">
-                <h5 class="card-title">Add Group 3 Keywords Space</h5>
-                <p class="card-text">Ex: "keyword G"; "keyword H"; "keyword J"</p>
-              </div>
-            </div>
-            <div class="row py-1">
-              <div class="col-md-12" style=""><a class="btn btn-primary" href="#">Add</a></div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="list-group pb-1">
-                  <a href="#" class="list-group-item list-group-item-action active py-1">Group 3 List - Change Color</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword G - Add checkbox</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword <b>H</b> - Add checkbox</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword J - Add checkbox</a>
-                </div>
-              </div>
-            </div>
-            <div class="row my-1">
-              <div class="col-md-12"><a class="btn btn-secondary" href="#">Delete</a></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="py-2 pl-0 my-3" style="">
-  <div class="container">
-    <div class="row" style="">
-      <div class="col-md-3">
-        <h2 class="text-center align-items-center" style="">Select Search Features</h2>
-      </div>
-      <div class="col-md-9" style="">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="row pb-1">
-              <div class="col-md-12">
-                <div class="list-group">
-                  <a href="#" class="list-group-item list-group-item-action active py-1">Features</a>
-                  <a href="#" class="list-group-item list-group-item-action">Year Range ( From To)</a>
-                  <a href="#" class="list-group-item list-group-item-action" style="">Language Type (List with Check)</a>
-                  <a href="#" class="list-group-item list-group-item-action">Document Type (List with checkbox)</a>
-                </div>
-              </div>
-            </div><a class="btn btn-secondary" href="#">Save</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="py-2 pl-0 my-3" style="">
-  <div class="container">
-    <div class="row" style="">
-      <div class="col-md-3">
-        <h2 class="text-center align-items-center" style="">Non Related Keywords </h2>
-      </div>
-      <div class="col-md-9" style="">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="card text-white bg-primary mb-1">
-              <div class="card-header">Group 1</div>
-              <div class="card-body" style="">
-                <h5 class="card-title">Add Group 1 Keywords Space</h5>
-                <p class="card-text" style="">Ex: "keyword A"; "keyword B"; "keyword C"</p>
-              </div>
-            </div>
-            <div class="row py-1">
-              <div class="col-md-12" style=""><a class="btn btn-primary" href="#">Add</a></div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="list-group">
-                  <a href="#" class="list-group-item list-group-item-action active py-1">Group 1 List</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword A - Add checkbox</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword <b>B</b> - Add checkbox</a>
-                  <a href="#" class="list-group-item list-group-item-action" contenteditable="true">Keyword A - Add checkbox</a>
-                </div>
-              </div>
-            </div><a class="btn btn-secondary" href="#">Delete</a>
-          </div>
-          <div class="col-md-4" style="">
-            <div class="card text-white bg-secondary mb-1">
-              <div class="card-header">Group 2</div>
-              <div class="card-body">
-                <h5 class="card-title">Add Group 2 Keywords Space</h5>
-                <p class="card-text">Ex: "keyword D"; "keyword E"; "keyword F"</p>
-              </div>
-            </div>
-            <div class="row py-1">
-              <div class="col-md-12" style=""><a class="btn btn-primary" href="#">Add</a></div>
-            </div>
-            <div class="row">
-              <div class="col-md-12" style="">
-                <div class="list-group pb-1">
-                  <a href="#" class="list-group-item list-group-item-action active py-1" style="">Group 2 List - Change Color</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword D- Add checkbox</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword <b>E</b> - Add checkbox</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword F - Add checkbox</a>
-                </div>
-              </div>
-            </div><a class="btn btn-secondary" href="#">Delete</a>
-          </div>
-          <div class="col-md-4">
-            <div class="card bg-light mb-1">
-              <div class="card-header">Group 3</div>
-              <div class="card-body">
-                <h5 class="card-title">Add Group 3 Keywords Space</h5>
-                <p class="card-text">Ex: "keyword G"; "keyword H"; "keyword J"</p>
-              </div>
-            </div>
-            <div class="row py-1">
-              <div class="col-md-12" style=""><a class="btn btn-primary" href="#">Add</a></div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="list-group pb-1">
-                  <a href="#" class="list-group-item list-group-item-action active py-1">Group 3 List - Change Color</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword G - Add checkbox</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword <b>H</b> - Add checkbox</a>
-                  <a href="#" class="list-group-item list-group-item-action">Keyword J - Add checkbox</a>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12"><a class="btn btn-secondary" href="#">Delete</a></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="py-2 pl-0" style="">
-  <div class="container">
-    <div class="row" style="">
-      <div class="col-md-3">
-        <h2 class="text-center align-items-center" style="" contenteditable="true">Generate Search String</h2>
-      </div>
-      <div class="col-md-9" style="">
-        <div class="row">
-          <div class="col-md-2"><a class="btn btn-primary" href="#">Generate</a></div>
-          <div class="col-md-9">
-            <div class="row">
-              <div class="col-12">
-                <ul class="nav nav-pills flex-column">
-                  <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#tabone">Search String A</a> </li>
-                  <li class="nav-item" style=""> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo">Search String B</a> </li>
-                  <li class="nav-item" style=""> <a href="" class="nav-link active" data-toggle="pill" data-target="#tabthree">Search String C</a> </li>
-                </ul>
-              </div>
-              <div class="col-12 my-3" style="">
-                <div class="tab-content">
-                  <div class="tab-pane fade" id="tabone" role="tabpanel">
-                    <p class="">Search String A Details</p>
-                  </div>
-                  <div class="tab-pane fade" id="tabtwo" role="tabpanel">
-                    <p class="" style=""> Search String B Details</p>
-                  </div>
-                  <div class="tab-pane fade active show" id="tabthree" role="tabpanel">
-                    <p class="">Search String C Details</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6"><a class="btn btn-secondary" href="#">Copy String</a></div>
-          <div class="col-md-6"><a class="btn btn-dark" href="#">Auto Search (Disabled)</a></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="py-2 pl-0" style="">
-  <div class="container">
-    <div class="row" style="">
-      <div class="col-md-3" style="">
-        <h2 class="text-center align-items-center" style="">Search Results Database</h2>
-      </div>
-      <div class="col-md-9" style="">
-        <div class="row">
-          <div class="col-md-12 my-1"><a class="btn btn-primary" href="#">Load database</a></div>
-        </div>
-        <div class="row" style="">
-          <div class="col-md-2" style=""><a class="btn btn-secondary" href="#">Show database</a></div>
-          <div class="col-md-10" style="">
-            <div class="table-responsive">
-              <table class="table table-bordered ">
-                <thead class="thead-dark">
-                  <tr>
-                    <th>#</th>
-                    <th>First</th>
-                    <th>Last</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th>1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                  </tr>
-                  <tr>
-                    <th>2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="py-2 pl-0" style="">
-  <div class="container">
-    <div class="row" style="">
-      <div class="col-md-3" style="">
-        <h2 class="text-center align-items-center" style="">Create Queries</h2>
-      </div>
-      <div class="col-md-9" style="">
-        <div class="row" style=""></div>
-      </div>
-    </div>
+    {% endif %}
+    {% endwith %}
+    </span>
   </div>
 </div>
 {% endblock %}

@@ -29,31 +29,39 @@ def new_project():
         else:
             flash('A project already exists with that name.')
     if form2.validate_on_submit() and form2.submit2.data:
-
-        pass ### open project
-    elif form2.validate_on_submit() and form2.submit3.data:
-            project= Projects.query.filter_by(project_name=form2.project_nameB.data, user_id=user_id).first()
-            db.session.delete(project)
+        pjct= Projects.query.filter_by(project_name=form2.project_nameB.data).first()
+        reviews=Reviews.query.filter_by(project_id=pjct.id).all()
+        if reviews:
+            review=Reviews.query.filter_by(project_id=pjct.id).first()
+            review_name=review.review_name
+        else:
+            review_name=str(pjct.project_name)+":_Review_Iteration__000"
+            create_new_review=Reviews(review_name=review_name, project_id=pjct.id)
+            db.session.add(create_new_review)
             db.session.commit()
-            project_list=Projects.query.filter_by(user_id=user_id)
-            flash('Project Name "'+form2.project_nameB.data +'" deleted!')
-
+        return redirect(url_for("mngt.new_review",project_name=form2.project_nameB.data, review_name=review_name)) 
+    elif form2.validate_on_submit() and form2.submit3.data:
+        project= Projects.query.filter_by(project_name=form2.project_nameB.data, user_id=user_id).first()
+        db.session.delete(project)
+        db.session.commit()
+        project_list=Projects.query.filter_by(user_id=user_id)
+        flash('Project Name "'+form2.project_nameB.data +'" deleted!')
+        return render_template('mngt/new_project.html', form=form, form2=form2, project_list=project_list, username=username)
     if project_list:
         return render_template('mngt/new_project.html', form=form, form2=form2, project_list=project_list, username=username)
     return render_template('mngt/new_project.html', form=form, form2=form2, username=username)
 
-@manage_reviews_bp.route('/')
+@manage_reviews_bp.route('/load_project')
 def load_project():
     wmi=Wmi(current_user);  user_id=wmi.get_user_id();  username=wmi.get_username()
     ### to be defined
     return render_template('mngt/load_project.html', username=username)
 
-@manage_reviews_bp.route('/')
+@manage_reviews_bp.route('/share_project')
 def share_project():
     wmi=Wmi(current_user);  user_id=wmi.get_user_id();  username=wmi.get_username()
     ### to be defined
     return render_template('mngt/share_project.html', username=username)
-
 
 @manage_reviews_bp.route('/<project_name>/<review_name>', methods=['GET', 'POST'])
 @login_required
@@ -62,7 +70,7 @@ def new_review(project_name,review_name):
     ###add review name form
     ###modifiy review name form
     ###open review data
-    return render_template('mngt/new_review.html', username=username)
+    return render_template('mngt/new_review.html', username=username, project_name=project_name, review_name=review_name)
 
 @manage_reviews_bp.route('/<project_name>/<review_name>/problem_space', methods=['GET', 'POST'])
 @login_required
