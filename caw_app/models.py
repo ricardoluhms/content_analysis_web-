@@ -347,79 +347,14 @@ class Reviews(db.Model):
     ### Primary Key ###
     id = db.Column(db.Integer, primary_key=True) ### review id
     review_name=db.Column(db.String(64), index=True)
+    problem_space_text = db.Column(db.Text)
+    solution_space_text = db.Column(db.Text)
+    tt_groups=db.Column(db.Integer)
+    group_name=db.Column(db.String(64), index=True)
+    group_type=db.Column(db.String(16), index=True)
+    keyword_list = db.Column(db.Text)
     ### Foreign Keys - Parent only ###
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))### ok - project=parent - review=children
     ### Relationship Keys - Has Parent? - YES - Projects
     projects_CP=db.relationship('Projects', back_populates="reviews_PC")
     ### Relationship Keys - Has Children? - YES - Problem_Space, Solution_Space, Manage_Groups
-    problem_space_PC=db.relationship('Problem_Space', back_populates="prob_review_CP")
-    solution_space_PC=db.relationship('Solution_Space', back_populates="solut_review_CP")
-    manage_group_PC=db.relationship('Manage_Groups', back_populates="review_CP")
-
-class Problem_Space(db.Model):
-    ### Table Name ###
-    __tablename__='problem_space'
-    ### Primary Key ###
-    id = db.Column(db.Integer, primary_key=True) 
-    ### Data Columns ###
-    problem_space_text = db.Column(db.Text)
-    ### Foreign Keys - Parent only ###
-    review_id = db.Column(db.Integer, db.ForeignKey('reviews.id'))
-    ## Relationship Keys - Has Parent? - YES - Reviews
-    prob_review_CP=db.relationship('Reviews', back_populates="problem_space_PC")
-    ### Relationship Keys - Has Children? - NO
-
-class Solution_Space(db.Model):
-    ### Table Name ###
-    __tablename__='solution_space'
-    ### Primary Key ###
-    id = db.Column(db.Integer, primary_key=True) 
-    ### Data Columns ###
-    solution_space_text = db.Column(db.Text)
-    ### Foreign Keys - Parent only ###
-    review_id = db.Column(db.Integer, db.ForeignKey('reviews.id'))
-    ## Relationship Keys - Has Parent? - YES - Reviews
-    solut_review_CP=db.relationship('Reviews', back_populates="solution_space_PC")
-    ### Relationship Keys - Has Children? - NO
-
-class Manage_Groups(db.Model):
-    ### Table Name ###
-    __tablename__='manage_group'
-    ### Primary Key ###
-    id = db.Column(db.Integer, primary_key=True)
-    ### Data Columns ###
-    tt_groups=db.Column(db.Integer)
-    ### Foreign Keys - Parent only ###
-    review_id = db.Column(db.Integer, db.ForeignKey('reviews.id'))
-    ### Relationship Keys - Has Parent? - YES - Reviews
-    review_CP=db.relationship('Reviews', back_populates="manage_group_PC")
-    ### Relationship Keys - Has Children? - YES - New_Group
-    all_groups_PC=db.relationship('New_Group', back_populates="manage_group_CP")
-
-class New_Group(db.Model):
-    ### Table Name ###
-    __tablename__='all_groups'
-    ### Primary Key ###
-    id = db.Column(db.Integer, primary_key=True)
-    ### Data Columns ###
-    group_name=db.Column(db.String(64), index=True)
-    group_type=db.Column(db.String(16), index=True)
-    ### Foreign Keys - Parent only ###
-    manage_group_id = db.Column(db.Integer, db.ForeignKey('manage_group.id'))
-    ### Relationship Keys - Has Parent? - YES - Manage_Groups
-    manage_group_CP=db.relationship('Manage_Groups', back_populates="all_groups_PC")
-    ### Relationship Keys - Has Children? - YES - Keywords
-    keywords_PC=db.relationship('Keywords', back_populates="key2group_CP")
-    
-class Keywords(db.Model):
-    ### Table Name ###
-    __tablename__='keywords'
-    ### Primary Key ###
-    id = db.Column(db.Integer, primary_key=True)
-    ### Data Columns ###
-    keyword_list = db.Column(db.Text)
-    ### Foreign Keys - Parent only ###
-    group_id = db.Column(db.Integer, db.ForeignKey('all_groups.id'))
-    ### Relationship Keys - Has Parent? - YES - New_Group
-    key2group_CP = db.relationship('New_Group', back_populates="keywords_PC")
-    ### Relationship Keys - Has Children? - NO

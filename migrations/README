@@ -1,1 +1,9 @@
-Generic single-database configuration.
+DB Migrations and Schema Update Instructions
+- Through the Prompt:
+    - conda activate mlenv
+    - set FLASK_APP=run_app.py (pg.44 Grinberg Tutorial)
+    - go to the folder (C:\Users\ricar\source\repos\content_analysis_web>)
+    - flask db migrate -m "Joined DB into Review Class" ( this will change perform the necessary changes into the db)
+    - flask db upgrade (upgrade the new changes into the current db)
+
+

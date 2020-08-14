@@ -10,53 +10,36 @@
     opacity: 0.9;}</style>
 {% endblock %}
 
+{% block debug_messages %}
+<div class="py-5 text-center">
+  <div class="row submit-row">
+    <span class="input-status" data-toggle="tooltip" data-placement="top">
+    {% with messages= get_flashed_messages() %}
+    {% if messages %}
+    <div class="card-body p-2">
+      <span ><b style="font-size: larger; color:#faf6f6; padding: 5px; "> Message Status</b></span>
+      <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+    {% endwith %}
+    </span>
+  </div>
+</div>
+{% endblock %}
+
 {% block new_review_side %}
 <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-  <a href="{{ url_for('mngt.load_project')}}"> LOAD PROJECT / REVIEW </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
-
-<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
    <a href="{{ url_for('mngt.new_review', project_name=project_name,review_name=review_name)}}"> 
-        REVIEW AND ITERATION </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+      LOAD PROJECT / REVIEW  </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
 
 <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-  <a href="{{ url_for('mngt.solution_problem_space', project_name=project_name,review_name=review_name)}}"> 
-    SOLUTION & PROBLEM SPACE</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+  <a href="{{ url_for('mngt.review_details', project_name=project_name,review_name=review_name)}}"> 
+    REVIEW DETAILS</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
 
-<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-  <a href="{{ url_for('mngt.groups_space', project_name=project_name,review_name=review_name)}}"> 
-        DEFINE GROUPS </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
-        
-<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-  <a href="{{ url_for('mngt.group_relation', project_name=project_name,review_name=review_name)}}"> 
-        DEFINE GROUPS RELATIONSHIP</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
-
-<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-  <a href="{{ url_for('mngt.venn_diagram', project_name=project_name,review_name=review_name)}}"> 
-        GENERATE VENN'S DIAGRAM</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
-
-<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-  <a href="{{ url_for('mngt.group_keywords', project_name=project_name,review_name=review_name)}}"> 
-        ASSIGN KEYWORDS TO GROUP</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
-
-<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-  <a href="{{ url_for('mngt.other_features', project_name=project_name,review_name=review_name)}}"> 
-        DEFINE OTHER RESEARCH PARAMETERS </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
-
-<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-  <a href="{{ url_for('mngt.keywords_exclusions', project_name=project_name,review_name=review_name)}}"> 
-        KEYWORDS EXCLUSION </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
-
-<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-  <a href="{{ url_for('mngt.search_string', project_name=project_name,review_name=review_name)}}"> 
-        GENERATE SEARCH STRING </a><i class="fa fa-repeat text-muted fa-lg"></i></li>        
-
-<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-  <a href="{{ url_for('mngt.search_results', project_name=project_name,review_name=review_name)}}"> 
-        MANAGE SEARCH RESULTS </a><i class="fa fa-repeat text-muted fa-lg"></i></li>        
-
-<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-  <a href="{{ url_for('mngt.analysis', project_name=project_name,review_name=review_name)}}"> 
-        DOCUMENTENT RECOMMENDATION ANALYSIS </a><i class="fa fa-repeat text-muted fa-lg"></i></li>        
 {% endblock %}
 
 {% block review_core %}
@@ -65,7 +48,7 @@
                 color:#f3f3f3; border-width: 1px;
                 border-color: #000000;}
 </style>
-<div class="col-xl" style="background-color:#f3f3f3; padding: 5px;">
+<div class="col-md-9" style="background-color:#f3f3f3; padding: 5px;">
   <div class="card">
     <div class="card-body p-2">
       <h3> Review Details:</h3>
@@ -74,27 +57,11 @@
         <li><span ><b style="font-size: larger; "> - Recommended Review Name: {{review_name}}</b></span></li>
       </ul>
     </div>
-    <div class="card-body p-2">
+    <div class="card-body p-2" title="Sumbit4 = Rename Review">
       {{ wtf.quick_form(form1, button_map={'submit4':'success'}) }}
     </div>
-    <div class="card-body p-2">
+    <div class="card-body p-2"title="[Sumbit5 = Open Review, Sumbit6 = Delete Review, Sumbit7 = Add New Review Itereration ">
       {{ wtf.quick_form(form2, button_map={'submit5':'warning','submit6':'danger','submit7':'success'}) }}
-    </div>
-    <div class="row submit-row">
-      <span class="input-status" data-toggle="tooltip" data-placement="top">
-      {% with messages= get_flashed_messages() %}
-      {% if messages %}
-      <div class="card-body p-2">
-        <span ><b style="font-size: larger; color:#faf6f6; padding: 5px; "> Message Status</b></span>
-        <ul class=flashes>
-          {% for message in messages %}
-          <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endif %}
-      {% endwith %}
-      </span>
     </div>
   </div>
 </div>
