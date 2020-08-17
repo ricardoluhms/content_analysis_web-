@@ -23,22 +23,23 @@
 {% endblock %}
 
 {% block content %}
-    <div class="py-3 pl-0" style="background-color:#f3f3f3">
+    <div class="py-3 pl-0" style="background-color:#f3f3f3; margin-right: 15px ;">
       <div class="container ml-1">
         <div class="row">
-          <div class="col-md-3 ml-0" style="">
+          <div class="col-md-2 ml-0" style="">
             <ul class="list-group">
               <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
                 <a href="{{ url_for('mngt.manage_screen')}}" style="text-decoration: none;" > MANAGE SCREEN </a><i class="fa fa-list text-muted fa-lg"></i></li>
               <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-                <a href="{{ url_for('mngt.new_project')}}">MY PROJECTS </a><i class="fa fa-folder text-muted fa-lg" aria-hidden="true"></i></li>
-              {% block new_review_side %}
+                <a href="{{ url_for('mngt.new_project')}}"> MY PROJECTS </a><i class="fa fa-folder text-muted fa-lg" aria-hidden="true"></i></li>
+           
                 <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
                 <a href="{{ url_for('mngt.new_review', project_name=project_name,review_name=review_name)}}"> 
-                  LOAD PROJECT / REVIEW </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
+                  LOAD PROJECT </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
               <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-                <a href="{{ url_for('mngt.share_project')}}">SHARE PROJECT / REVIEW </a><i  class="fa fa-users text-muted fa-lg" aria-hidden="true"></i></li>
+                <a href="{{ url_for('mngt.share_project')}}"> SHARE PROJECT </a><i  class="fa fa-users text-muted fa-lg" aria-hidden="true"></i></li>
               <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
+              {% block new_review_side %}
                 <a href= "{{ url_for('prof.user_profile', username=username) }}" > MY PROFILE </a> <i class="fa fa-user-circle text-muted fa-lg" aria-hidden="true" ></i></li>
               <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
                 <a href="{{ url_for('auth.logout')}}"> LOG OUT</a> <i class="fa fa-sign-out text-muted fa-lg"></i></li>

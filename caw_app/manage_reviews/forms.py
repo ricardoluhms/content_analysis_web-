@@ -37,20 +37,20 @@ class Total_Group_Form(FlaskForm):
 
 class Add_Group_Form_A(FlaskForm):
     group_name1=StringField('Group Name 1: ', validators=[DataRequired()])
-    submit11 = SubmitField('Confirm')
+    submit11 = SubmitField('Confirm/Replace')
 
 class Add_Group_Form_B(FlaskForm):
-    group_name2=StringField('Group Name 2:', validators=[DataRequired()])
+    group_name2=StringField('Group Name 2: ', validators=[DataRequired()])
     submit12 = SubmitField('Confirm/Replace')
 
 class Add_Group_Form_C(FlaskForm):
-    group_name3=StringField('Group Nname 3', validators=[DataRequired()])
+    group_name3=StringField('Group Name 3: ', validators=[DataRequired()])
     submit13 = SubmitField('Confirm/Replace')
 
 class Add_Group_Form_D(FlaskForm):
-    group_name4=StringField('Group Nname 4', validators=[DataRequired()])
+    group_name4=StringField('Group Name 4: ', validators=[DataRequired()])
     submit14 = SubmitField('Confirm/Replace')
 
 class Add_Group_Relationship_Form(FlaskForm):
-    group_name=StringField('TO BE DEFINED', validators=[DataRequired()])
+    group_name5=StringField('TO BE DEFINED', validators=[DataRequired()])
     submit15 = SubmitField('Confirm')

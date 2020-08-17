@@ -2,9 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\caw_app",
+    "\\caw_app\\manage_reviews",
+    "\\caw_app\\templates",
+    "\\caw_app\\templates\\mngt",
     "\\logs",
     "\\migrations"
   ],
-  "SelectedNode": "\\deploy",
+  "SelectedNode": "\\caw_app\\templates\\mngt\\manage_screen.html",
   "PreviewInSolutionExplorer": true
 }

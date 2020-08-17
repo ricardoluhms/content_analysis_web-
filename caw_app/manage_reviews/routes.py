@@ -209,7 +209,7 @@ def review_details(project_name,review_name):
         db.session.commit()
 
     if review.group_name==None:
-        review.group_name='{"group_A":"Empty", "group_B":"Empty", "group_C":"Empty", "group_D":"Empty"}'
+        review.group_name="{'group_A': 'Empty' , 'group_B': 'Empty' , 'group_C': 'Empty' , 'group_D': 'Empty'}"
         db.session.add(review)
         db.session.commit()
 
@@ -219,40 +219,49 @@ def review_details(project_name,review_name):
     if formD.validate_on_submit() and formD.submit11.data:
         group_name1=formD.group_name1.data
         group_name_dict=eval(review.group_name)
-        group_name_dict["group_A"]=group_name1
+        group_name_dict["group_A"]=str(group_name1)
         review.group_name=str(group_name_dict) 
         db.session.add(review) 
         db.session.commit()
 
-    if review.tt_groups ==2:
+    if review.tt_groups >=2:
         if formE.validate_on_submit() and formE.submit12.data:
             group_name2=formE.group_name2.data
             group_name_dict=eval(review.group_name)
-            group_name_dict["group_B"]=group_name2
+            group_name_dict["group_B"]=str(group_name2)
             review.group_name=str(group_name_dict) 
             db.session.add(review) 
             db.session.commit()
 
-    if review.tt_groups ==3:
+    if review.tt_groups >=3:
         
         if formF.validate_on_submit() and formF.submit13.data:
             group_name3=formF.group_name3.data
             group_name_dict=eval(review.group_name)
-            group_name_dict["group_C"]=group_name3
+            group_name_dict["group_C"]=str(group_name3)
             review.group_name=str(group_name_dict) 
             db.session.add(review) 
             db.session.commit()
         
-    if review.tt_groups ==4:
+    if review.tt_groups >=4:
         
         if formG.validate_on_submit() and formG.submit14.data:
-            group_name4=formF.group_name4.data
+            group_name4=formG.group_name4.data
             group_name_dict=eval(review.group_name)
-            group_name_dict["group_D"]=group_name4
+            group_name_dict["group_D"]=str(group_name4)
             review.group_name=str(group_name_dict) 
             db.session.add(review) 
             db.session.commit()
+
+
     group_name_dict=eval(review.group_name)
+
+    if review.group_type==None:
+        review.group_name="{'A_B': 'False' , 'A_C': 'False' , 'A_D': 'False' ,\
+            'B_C': 'False' , 'B_D': 'False' , 'C_D': 'False'}"
+        db.session.add(review)
+        db.session.commit()
+
     return render_template('mngt/review_details.html', 
                             username=check.username, project_name=project_name, 
                             review_name=review_name,

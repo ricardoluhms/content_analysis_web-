@@ -10,13 +10,15 @@
     opacity: 0.9;}</style>
 {% endblock %}
 
+
+
 {% block debug_messages %}
-<div class="py-5 text-center">
+<div class="py-3 text-center">
   <div class="row submit-row">
     <span class="input-status" data-toggle="tooltip" data-placement="top">
     {% with messages= get_flashed_messages() %}
     {% if messages %}
-    <div class="card-body p-2">
+    <div class="card-body p-1">
       <span ><b style="font-size: larger; color:#faf6f6; padding: 5px; "> Message Status</b></span>
       <ul class=flashes>
         {% for message in messages %}
@@ -33,10 +35,6 @@
 
 {% block new_review_side %}
 <li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
-   <a href="{{ url_for('mngt.new_review', project_name=project_name,review_name=review_name)}}"> 
-      LOAD PROJECT / REVIEW  </a><i class="fa fa-repeat text-muted fa-lg"></i></li>
-
-<li class=" border-0 list-group-item d-flex justify-content-between align-items-center">
   <a href="{{ url_for('mngt.review_details', project_name=project_name,review_name=review_name)}}"> 
     REVIEW DETAILS</a><i class="fa fa-repeat text-muted fa-lg"></i></li>
 
@@ -48,19 +46,19 @@
                 color:#f3f3f3; border-width: 1px;
                 border-color: #000000;}
 </style>
-<div class="col-md-9" style="background-color:#f3f3f3; padding: 5px;">
+<div class="col-md-10" style="background-color:#f3f3f3; padding: 5px;">
   <div class="card">
-    <div class="card-body p-2">
+    <div class="card-body p-1">
       <h3> Review Details:</h3>
       <ul>
         <li><span ><b style="font-size: larger; "> - Project Name: {{project_name}}</b></span></li>
         <li><span ><b style="font-size: larger; "> - Recommended Review Name: {{review_name}}</b></span></li>
       </ul>
     </div>
-    <div class="card-body p-2" title="Sumbit4 = Rename Review">
+    <div class="card-body p-1" title="Sumbit4 = Rename Review">
       {{ wtf.quick_form(form1, button_map={'submit4':'success'}) }}
     </div>
-    <div class="card-body p-2"title="[Sumbit5 = Open Review, Sumbit6 = Delete Review, Sumbit7 = Add New Review Itereration ">
+    <div class="card-body p-1"title="[Sumbit5 = Open Review, Sumbit6 = Delete Review, Sumbit7 = Add New Review Itereration ">
       {{ wtf.quick_form(form2, button_map={'submit5':'warning','submit6':'danger','submit7':'success'}) }}
     </div>
   </div>

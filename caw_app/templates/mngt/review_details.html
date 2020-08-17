@@ -1,61 +1,63 @@
 {% extends "mngt/new_review.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "bootstrap/wtf.html" as wtf %}
+
+{% block project_data %}
+<div class="row" style="padding-left: 40px;">
+  <h4> <b class="text-center align-items-center" 
+       style="color: cornsilk;"> {{review_name}}</b>
+  </h4>
+</div>
+{% endblock %}
+
 {% block debug_messages %}
 {% endblock %}
 
 {% block review_core %}
-  <div class="col-md-9">
-    <div class="row" style="margin-top: 3px;margin-bottom: 3px;">
-      <h4 > <b class="text-center align-items-center" 
-           style="font-size: larger; "> {{review_name}}</b>
-      </h4>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header" style="background-color: dimgray;">
-            <h3 style="font-style: italic ;color: whitesmoke;"> Problem Space </h3></div>
+<style> 
+ button, input { margin: 2px; padding: 2px;}
+ div.card-header {margin: 0px; padding: 2px; text-align: center; }
+ div.col-md-9, div.col-md-6 {padding: 5px}</style>
+<div class="col-md-9">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header" style="background-color: dimgray;">
+          <h4 style="font-style: italic ;color: whitesmoke;"> Problem Space </h4>
+        </div>
           <div class="card-body">
-            <h4>Research Questions: - </h4>
-            <ul>
-              <li>
-                <p> Describe what is the problem you will solve with your research. </p>
-              </li>
-              <li>
-                <p> Which are the benefits that will come after solving this problem? </p>
-              </li>
-              <li>
-                <p> Example: Projects restrictions/Limitations of existing technologies </p>
-              </li>
+            <h5>Research Questions: - </h5>
+            <ul style="margin-left: -30px; margin-right: -20px; margin-bottom: 1px;">
+              <li> <p> Describe what is the problem you will solve with your research. </p> </li>
+              <li> <p> Which are the benefits that will come after solving this problem? </p> </li>
+              <li> <p> Example: Projects restrictions/Limitations of existing technologies </p> </li>
             </ul>
             {{ wtf.quick_form(formA, button_map={'submit8':'success'}) }}
           </div>
+      </div>
+      <div class="card">
+        <div class="card-header" style="background-color: dimgray;"> 
+          <h4 style="font-style: italic ;color: whitesmoke;">Saved Problem Space Output </h4> 
         </div>
-        <div class="card">
-          <div class="card-header" style="background-color: dimgray;"> 
-            <h3 style="font-style: italic ;color: whitesmoke;">Saved Problem Space Output </h3> </div>
-          <div class="card-body" style="background-color: #cacaca;">
-            <blockquote class="blockquote mb-0">
-              {% if review.problem_space_text %}
-              {{ review.problem_space_text }}
-              {% elif formA.problem_space_text.data %}
-              {{ formA.problem_space_text.data }} 
-              {% endif %}
-              <footer class="blockquote-footer">Last Modified Time/Data/User</footer>
-            </blockquote>
-          </div>
+        <div class="card-body" style="background-color: #cacaca;">
+          <blockquote class="blockquote mb-0">
+            {% if review.problem_space_text %}
+            {{ review.problem_space_text }}
+            {% elif formA.problem_space_text.data %}
+            {{ formA.problem_space_text.data }} 
+            {% endif %}
+            <footer class="blockquote-footer">Last Modified Time/Data/User</footer>
+          </blockquote>
         </div>
       </div>
     </div>
-    <div class="row" style="margin-top: 3px;margin-bottom: 3px;">
-      <div class="col-md-12">
+      <div class="col-md-6">
         <div class="card">
-          <div class="card-header" style="background-color:teal;">
-            <h3 style="font-style: italic ;color: whitesmoke;"> Solution Space </h3> </div>
+          <div class="card-header" style="background-color:teal; ">
+            <h4 style="font-style: italic ;color: whitesmoke;"> Solution Space </h4> </div>
           <div class="card-body">
-            <h4>Research Questions: - </h4>
-            <ul>
+            <h5>Research Questions: - </h5>
+            <ul style="margin-left: -30px; margin-right: -20px">
               <li>
                 <p> Define which are the solutions/existing technologies for that problem. </p>
               </li>
@@ -71,7 +73,7 @@
         </div>
         <div class="card">
           <div class="card-header" style="background-color:teal;" >
-            <h3 style="font-style: italic ;color: whitesmoke;"> Saved Solution Space Output </h3> </div>
+            <h4 style="font-style: italic ;color: whitesmoke;"> Saved Solution Space Output </h4> </div>
           <div class="card-body" style="background-color: #b8ceb8;">
             <blockquote class="blockquote mb-0" >
               {% if review.solution_space_text %}
@@ -84,22 +86,25 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="row" style="margin-top: 3px;margin-bottom: 3px;">
-      <div class="col-md-12">
-        <div class="card text-black  mb-1" style="background-color: #dbc275;">
-          <div class="card-header bg-warning"><h4> Define Main Groups </h4></div>
-            <div class="card-body" >
-              <h5 class="card-title"> {{ wtf.quick_form(formC, form_type="inline",button_map={'submit10':'success'}) }}</h5>
-            </div>
-          <div class="card text-white mb-1" style="margin: 5px; background-color: tomato;">
-            <div class="card-header"> Group 1: &nbsp;{{group_name_dict["group_A"]}}</div>
-              <div class="card-body">
-                <h5 class="card-title">{{ wtf.quick_form(formD, form_type="inline",button_map={'submit11':'success'}) }} </h5>
-              </div>
-          </div>
+  </div>
+  <div class="row">
 
-          {% if review.tt_groups %}
+    <div class="col-md-12" style="padding-left: 3px; padding-right: 3px;">
+      <div class="card text-black  mb-1" style="background-color: #dbc275; padding: 5px;">
+        <div class="card-header bg-warning"><h4> Define Main Groups </h4>
+        </div>
+        <div class="card-body" style="padding: 3px;">
+          <h5 class="card-title " style="padding: 0px;"> {{ wtf.quick_form(formC, form_type="inline",button_map={'submit10':'success'}) }}</h5>
+        </div>
+        {% if review.tt_groups %}
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card text-white mb-1" style="margin: 5px; background-color: tomato;">
+              <div class="card-header"> Group 1: &nbsp;{{group_name_dict["group_A"]}}</div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ wtf.quick_form(formD, form_type="inline",button_map={'submit11':'success'}) }} </h5>
+                </div>
+            </div>
             {% if review.tt_groups>=2 %}
             <div class="card text-white bg-primary mb-1" style="margin: 5px;">
               <div class="card-header"> Group 2: &nbsp;{{group_name_dict["group_B"]}}</div> 
@@ -108,6 +113,8 @@
                 </div>
             </div>
             {% endif %}
+          </div>
+          <div class="col-md-6">
             {% if review.tt_groups>=3 %}
             <div class="card text-white bg-secondary mb-1" style="margin: 5px;">
               <div class="card-header"> Group 3: &nbsp;{{group_name_dict["group_C"]}}</div> 
@@ -124,10 +131,11 @@
                 </div>
             </div>
             {% endif %}
-          {% endif %}
+          </div>
         </div>
+        {% endif %}   
       </div>
     </div>
   </div>
-
+</div> 
 {% endblock %}
